@@ -58,7 +58,6 @@ export function HeroSlideshow({ slides }: Props) {
                 src={slide.src}
                 alt={slide.alt}
                 fill
-                unoptimized
                 className={cn(
                   "object-cover object-center",
                   // applying 7s zoom duration
@@ -70,14 +69,13 @@ export function HeroSlideshow({ slides }: Props) {
               />
             </Link>
           ) : (
-            <Image
-              src={slide.src}
-              alt={slide.alt}
-              fill
-              unoptimized
-              className={cn(
-                "object-cover object-center",
-                // applying 7s zoom duration
+              <Image
+                src={slide.src}
+                alt={slide.alt}
+                fill
+                className={cn(
+                  "object-cover object-center",
+                  // applying 7s zoom duration
                 "transition-transform duration-[7000ms] ease-out",
                 index === currentIndex ? "scale-105" : "scale-100"
               )}

@@ -78,10 +78,10 @@ export default async function HomePage() {
         ];
 
   const heroSlides = [
-    { src: "/images/home/slide_1.jpg", alt: "Active Wear", category: "Active Wear", href: "/product/puma-woven-gym-shorts" },
-    { src: "/images/home/slide_2.jpg", alt: "Women's Wear", category: "Women's Wear", href: "/product/odette-pearl-embellished-graphic-t-shirt-blush-pink" },
-    { src: "/images/home/slide_3.jpg", alt: "Men's Wear", category: "Men's Wear", href: "/product/ballucci-ferrari-scuderia-t-shirt-black" },
-    { src: "/images/home/slide_4.jpg", alt: "Accessories", category: "Accessories", href: "/product/cherry-red-roadster-sling-bag" }
+    { src: "/images/home/slide_1.jpg", alt: "Coral Floral Satin Shirt Dress", category: "Dresses", href: "/product/coral-floral-satin-shirt-dress" },
+    { src: "/images/home/slide_2.jpg", alt: "People Tropical Olive Palm Print Resort Shirt", category: "Men's Wear", href: "/product/people-tropical-olive-palm-print-resort-shirt" },
+    { src: "/images/home/slide_3.jpg", alt: "Rust Lace Trim Tank Top", category: "Women's Wear", href: "/product/rust-lace-trim-cami-top" },
+    { src: "/images/home/slide_4.jpg", alt: "Cream Sage Floral Mul Cotton Suit with Black Dupatta", category: "Indian Casuals", href: "/product/cream-sage-floral-cotton-suit-black-dupatta" }
   ];
 
   const brandCount = BRAND.brandsCarried.length;

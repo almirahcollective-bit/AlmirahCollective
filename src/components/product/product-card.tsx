@@ -38,7 +38,6 @@ export function ProductCard({
             alt={name}
             fill
             priority={priority}
-            unoptimized
             sizes="(max-width:768px) 50vw, 25vw"
             className="object-cover transition-all duration-700 group-hover:scale-105 group-hover:opacity-0"
           />
@@ -46,7 +45,6 @@ export function ProductCard({
             src={secondary}
             alt=""
             fill
-            unoptimized
             sizes="(max-width:768px) 50vw, 25vw"
             className="object-cover opacity-0 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
           />
