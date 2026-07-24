@@ -45,6 +45,7 @@ type Product = {
   compareAtPrice?: string | null;
   categorySlug: string;
   images: string[];
+  isOutOfStock?: boolean | null;
 };
 
 type Lead = {
