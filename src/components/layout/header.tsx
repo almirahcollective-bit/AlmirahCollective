@@ -33,9 +33,7 @@ export function Header() {
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-          scrolled || mobileOpen
-            ? "bg-pearl/95 backdrop-blur-md shadow-[0_1px_0_rgba(11,11,12,0.06)]"
-            : "bg-transparent",
+          "bg-pearl/95 backdrop-blur-md shadow-[0_1px_0_rgba(11,11,12,0.06)]"
         )}
       >
         <AnnouncementBar />

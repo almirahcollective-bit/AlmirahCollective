@@ -78,10 +78,10 @@ export default async function HomePage() {
         ];
 
   const heroSlides = [
-    { src: "/images/home/slide_1.jpg", alt: "Active Wear", category: "Active Wear", href: "/shop/active-wear" },
-    { src: "/images/home/slide_2.jpg", alt: "Women's Wear", category: "Women's Wear", href: "/shop/womens-wear" },
-    { src: "/images/home/slide_3.jpg", alt: "Men's Wear", category: "Men's Wear", href: "/shop/mens-wear" },
-    { src: "/images/home/slide_4.jpg", alt: "Accessories", category: "Accessories", href: "/shop/accessories" }
+    { src: "/images/home/slide_1.jpg", alt: "Active Wear", category: "Active Wear", href: "/product/puma-woven-gym-shorts" },
+    { src: "/images/home/slide_2.jpg", alt: "Women's Wear", category: "Women's Wear", href: "/product/odette-pearl-embellished-graphic-t-shirt-blush-pink" },
+    { src: "/images/home/slide_3.jpg", alt: "Men's Wear", category: "Men's Wear", href: "/product/ballucci-ferrari-scuderia-t-shirt-black" },
+    { src: "/images/home/slide_4.jpg", alt: "Accessories", category: "Accessories", href: "/product/cherry-red-roadster-sling-bag" }
   ];
 
   const brandCount = BRAND.brandsCarried.length;
@@ -254,7 +254,7 @@ export default async function HomePage() {
               <h2 className="mt-3 font-serif text-3xl md:text-5xl">Featured finds</h2>
             </div>
             <MagneticButton href="/shop" variant="ghost">
-              Browse all {allProducts.length} pieces
+              View All
             </MagneticButton>
           </div>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
@@ -289,15 +289,14 @@ export default async function HomePage() {
         </div>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
           {OCCASIONS.map((o) => (
-            <Link
+            <div
               key={o.id}
-              href={`/shop/${o.categorySlug}`}
               className="group relative overflow-hidden border border-obsidian/10 bg-beige/40 p-6 transition hover:border-champagne/50"
             >
               <span className="text-3xl">{OCCASION_ICONS[o.icon] ?? "✨"}</span>
               <p className="mt-4 font-serif text-2xl">{o.name}</p>
               <p className="mt-2 text-xs leading-relaxed text-obsidian/55">{o.blurb}</p>
-            </Link>
+            </div>
           ))}
         </div>
       </section>
