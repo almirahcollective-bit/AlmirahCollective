@@ -33,6 +33,7 @@ type Product = {
   rating: string | null;
   reviewCount: number;
   categorySlug: string;
+  isOutOfStock: boolean;
 };
 
 type Review = {
@@ -65,12 +66,11 @@ export function ProductDetailClient({
   const [activeImage, setActiveImage] = useState(0);
 
   const [size, setSize] = useState(() => {
-    const availableSize = product.sizes.find(s => ((product.stockBySize || {})[s] || 0) > 0);
-    return availableSize || (product.sizes[0] ?? "");
+    return product.sizes[0] ?? "";
   });
 
-  const isSizeAvailable = ((product.stockBySize || {})[size] || 0) > 0;
-  const isOutOfStock = Number(product.stock) <= 0 || !isSizeAvailable;
+  const isSizeAvailable = !product.isOutOfStock;
+  const isOutOfStock = product.isOutOfStock;
 
   const [sizeGuide, setSizeGuide] = useState(false);
   const [accordion, setAccordion] = useState<string | null>("material");
@@ -150,7 +150,7 @@ export function ProductDetailClient({
             <p className="text-[10px] uppercase tracking-[0.25em] text-obsidian/40">
               {product.categorySlug.replace(/-/g, " ")}
             </p>
-            {Number(product.stock) <= 0 && (
+            {(product.isOutOfStock || product.stock === 0) && (
               <span className="bg-red-500 text-white px-2 py-1 text-[10px] uppercase font-bold tracking-widest">
                 Sold Out
               </span>
@@ -214,7 +214,7 @@ export function ProductDetailClient({
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
               {product.sizes.map((s) => {
-                const isAvailable = ((product.stockBySize || {})[s] || 0) > 0;
+                const isAvailable = !(product.isOutOfStock || product.stock === 0);
                 return (
                 <button
                   key={s}
@@ -237,7 +237,7 @@ export function ProductDetailClient({
           </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            {isOutOfStock ? (
+            {(product.isOutOfStock || product.stock === 0) ? (
               <div className="flex-1 flex items-center justify-center bg-obsidian/10 text-obsidian/50 font-bold uppercase tracking-[0.2em] py-3.5 text-[11px]">
                 Sold Out
               </div>

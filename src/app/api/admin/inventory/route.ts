@@ -28,6 +28,7 @@ export async function PATCH(request: Request) {
     if (body.price !== undefined) updates.price = String(body.price);
     if (body.compareAtPrice !== undefined) updates.compareAtPrice = body.compareAtPrice ? String(body.compareAtPrice) : null;
     if ((body as any).images !== undefined) updates.images = (body as any).images;
+    if ((body as any).isOutOfStock !== undefined) updates.isOutOfStock = (body as any).isOutOfStock;
 
     const [updated] = await db
       .update(products)
@@ -58,11 +59,12 @@ export async function POST(request: Request) {
       shortDescription: body.description.substring(0, 150) + "...",
       categorySlug: body.categorySlug || "womens-wear",
       price: String(body.price),
-      images: [body.image],
+      images: body.images || (body.image ? [body.image] : []),
       colors: [], // Can be expanded later
       sizes: Object.keys(body.stockBySize || {}).filter(s => (body.stockBySize[s] as number) > 0),
-      stockBySize: body.stockBySize,
+      stockBySize: body.stockBySize || { S: 0, L: 0, XL: 0, XXL: 0, "Free Size": 0 },
       stock: totalStock,
+      isOutOfStock: body.isOutOfStock || false,
     }).returning();
 
     return NextResponse.json({ product: newProduct });

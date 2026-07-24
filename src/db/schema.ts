@@ -64,6 +64,7 @@ export const products = pgTable("products", {
   tags: jsonb("tags").$type<string[]>().notNull().default([]),
   stock: integer("stock").notNull().default(0),
   stockBySize: jsonb("stock_by_size").$type<Record<string, number>>().notNull().default({ S: 0, L: 0, XL: 0, XXL: 0, "Free Size": 0 }),
+  isOutOfStock: boolean("is_out_of_stock").default(false).notNull(),
   isFeatured: boolean("is_featured").default(false).notNull(),
   isTrending: boolean("is_trending").default(false).notNull(),
   rating: numeric("rating", { precision: 3, scale: 2 }).default("0"),

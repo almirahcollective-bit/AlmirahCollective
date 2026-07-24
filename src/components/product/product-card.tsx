@@ -15,6 +15,7 @@ type ProductCardProps = {
   tags?: string[];
   priority?: boolean;
   stock?: number;
+  isOutOfStock?: boolean;
 };
 
 export function ProductCard({
@@ -25,6 +26,7 @@ export function ProductCard({
   images,
   priority = false,
   stock = 1,
+  isOutOfStock = false,
 }: ProductCardProps) {
   const primary = images[0];
   const secondary = images[1] ?? images[0];
@@ -71,7 +73,7 @@ export function ProductCard({
             <Heart className="h-3.5 w-3.5" />
           </button>
           
-          {stock === 0 ? (
+          {isOutOfStock || stock === 0 ? (
             <div className="absolute inset-x-0 bottom-0 bg-obsidian/90 px-4 py-3 text-center text-[10px] uppercase tracking-[0.2em] text-pearl/50">
               Out of Stock
             </div>

@@ -179,7 +179,7 @@ export function AdminClient({
   const [customFrom, setCustomFrom] = useState("");
   const [customTo, setCustomTo] = useState("");
   const [showNewProduct, setShowNewProduct] = useState(false);
-  const [newProductForm, setNewProductForm] = useState({ name: "", description: "", price: "", categorySlug: "womens-wear", imageFiles: [] as File[], stockBySize: { S: 0, L: 0, XL: 0, XXL: 0, "Free Size": 0 } });
+  const [newProductForm, setNewProductForm] = useState({ name: "", description: "", price: "", categorySlug: "womens-wear", imageFiles: [] as File[], stockBySize: { S: 0, L: 0, XL: 0, XXL: 0, "Free Size": 0 }, isOutOfStock: false });
   
   // Inventory UX state
   const [editedProducts, setEditedProducts] = useState<Record<number, any>>({});
@@ -319,6 +319,10 @@ export function AdminClient({
     const [moved] = newImages.splice(fromIndex, 1);
     newImages.splice(toIndex, 0, moved);
     updateProductDraft(id, { images: newImages });
+  }
+
+  function toggleOutOfStock(id: number, currentVal: boolean) {
+    updateProductDraft(id, { isOutOfStock: !currentVal });
   }
   
   async function handleBulkSave() {
@@ -612,6 +616,12 @@ export function AdminClient({
                         ))}
                       </div>
                     </div>
+                    <div className="pt-2 border-t border-pearl/10">
+                      <label className="flex items-center gap-2 mt-4 cursor-pointer">
+                        <input type="checkbox" className="accent-champagne" checked={newProductForm.isOutOfStock} onChange={e => setNewProductForm({...newProductForm, isOutOfStock: e.target.checked})} />
+                        <span className="text-[11px] uppercase tracking-widest text-champagne">Mark as Out of Stock</span>
+                      </label>
+                    </div>
                   </div>
                   <div className="mt-6 flex justify-end gap-3">
                     <button type="button" onClick={() => setShowNewProduct(false)} className="px-4 py-2 text-xs uppercase tracking-widest text-pearl/50 hover:text-pearl">Cancel</button>
@@ -758,9 +768,20 @@ export function AdminClient({
                         </div>
                       </td>
                       <td className="px-4 py-3 align-top text-right">
-                        <button onClick={() => deleteProduct(p.id)} className="text-[10px] uppercase tracking-widest text-red-400 hover:text-red-300 border border-red-900/30 px-2 py-1">
-                          Delete
-                        </button>
+                        <div className="flex flex-col items-end gap-3">
+                          <label className="flex items-center gap-2 cursor-pointer border border-pearl/20 px-2 py-1 text-[9px] uppercase tracking-widest text-pearl/50 hover:bg-pearl/5">
+                            <span className={cn((editedProducts[p.id]?.isOutOfStock ?? p.isOutOfStock) ? "text-red-400" : "")}>Out of Stock</span>
+                            <input 
+                              type="checkbox" 
+                              className="accent-champagne"
+                              checked={editedProducts[p.id]?.isOutOfStock ?? p.isOutOfStock}
+                              onChange={() => toggleOutOfStock(p.id, editedProducts[p.id]?.isOutOfStock ?? p.isOutOfStock)}
+                            />
+                          </label>
+                          <button onClick={() => deleteProduct(p.id)} className="text-[10px] uppercase tracking-widest text-red-400 hover:text-red-300 border border-red-900/30 px-2 py-1">
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   )})}

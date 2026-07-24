@@ -21,16 +21,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function CategoryPage({ params }: Props) {
+export default async function CategoryPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ category: string }>;
+  searchParams: { page?: string };
+}) {
   await ensureSeeded();
   const { category } = await params;
   const cat = CATEGORIES.find((c) => c.slug === category);
   if (!cat) notFound();
 
+  const page = Number(searchParams.page) || 1;
+  const perPage = 10;
+
   const items = await db
     .select()
     .from(products)
-    .where(eq(products.categorySlug, category));
+    .where(eq(products.categorySlug, category))
+    .limit(perPage)
+    .offset((page - 1) * perPage);
 
   return (
     <div className="mx-auto max-w-[1440px] px-5 pb-24 pt-32 md:pt-36 md:px-8">
@@ -55,6 +66,7 @@ export default async function CategoryPage({ params }: Props) {
             images={p.images}
             tags={p.tags}
             stock={p.stock}
+            isOutOfStock={p.isOutOfStock}
           />
         ))}
       </div>
@@ -63,6 +75,27 @@ export default async function CategoryPage({ params }: Props) {
         <p className="mt-16 text-center text-obsidian/50">
           New pieces arriving soon for this collection.
         </p>
+      )}
+
+      {items.length > 0 && (
+        <div className="mt-12 flex items-center justify-center gap-4">
+          {page > 1 && (
+            <Link
+              href={`/shop/${category}?page=${page - 1}`}
+              className="border border-obsidian px-6 py-3 text-[11px] uppercase tracking-[0.2em] text-obsidian hover:bg-obsidian hover:text-pearl transition"
+            >
+              Previous
+            </Link>
+          )}
+          {items.length === perPage && (
+            <Link
+              href={`/shop/${category}?page=${page + 1}`}
+              className="border border-obsidian px-6 py-3 text-[11px] uppercase tracking-[0.2em] text-obsidian hover:bg-obsidian hover:text-pearl transition"
+            >
+              Next
+            </Link>
+          )}
+        </div>
       )}
     </div>
   );

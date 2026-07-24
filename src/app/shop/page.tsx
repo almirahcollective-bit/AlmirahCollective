@@ -14,9 +14,24 @@ export const metadata: Metadata = {
   description: "Browse the complete Almirah Collective edit — genuine branded fashion across all categories.",
 };
 
-export default async function ShopPage() {
+export default async function ShopPage({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}) {
   await ensureSeeded();
-  const all = await db.select().from(products).orderBy(desc(products.isFeatured));
+  
+  const page = Number(searchParams.page) || 1;
+  const perPage = 10;
+  
+  const all = await db
+    .select()
+    .from(products)
+    .orderBy(desc(products.isFeatured))
+    .limit(perPage)
+    .offset((page - 1) * perPage);
+
+  // We should also get total count for pagination controls, but keeping it simple for now.
 
   return (
     <div className="mx-auto max-w-[1440px] px-5 pb-24 pt-32 md:pt-36 md:px-8">
@@ -60,8 +75,28 @@ export default async function ShopPage() {
             categorySlug={p.categorySlug}
             tags={p.tags}
             stock={p.stock}
+            isOutOfStock={p.isOutOfStock}
           />
         ))}
+      </div>
+      
+      <div className="mt-12 flex items-center justify-center gap-4">
+        {page > 1 && (
+          <Link
+            href={`/shop?page=${page - 1}`}
+            className="border border-obsidian px-6 py-3 text-[11px] uppercase tracking-[0.2em] text-obsidian hover:bg-obsidian hover:text-pearl transition"
+          >
+            Previous
+          </Link>
+        )}
+        {all.length === perPage && (
+          <Link
+            href={`/shop?page=${page + 1}`}
+            className="border border-obsidian px-6 py-3 text-[11px] uppercase tracking-[0.2em] text-obsidian hover:bg-obsidian hover:text-pearl transition"
+          >
+            Next
+          </Link>
+        )}
       </div>
     </div>
   );
