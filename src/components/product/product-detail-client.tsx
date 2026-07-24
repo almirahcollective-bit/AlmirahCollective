@@ -484,18 +484,18 @@ export function ProductDetailClient({
                 <thead>
                   <tr className="border-b border-obsidian/15 text-[10px] uppercase tracking-[0.15em] text-obsidian/50">
                     <th className="py-2 pr-3">Size</th>
-                    <th className="py-2 pr-3">Bust</th>
+                    <th className="py-2 pr-3">{product.categorySlug === "mens-wear" ? "Chest" : "Bust"}</th>
                     <th className="py-2 pr-3">Waist</th>
-                    <th className="py-2">Hip</th>
+                    <th className="py-2">{product.categorySlug === "mens-wear" ? "Length" : "Hip"}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {SIZE_CHART.tops.map((row) => (
+                  {(product.categorySlug === "mens-wear" ? SIZE_CHART.mensTops : SIZE_CHART.womensTops).map((row) => (
                     <tr key={row.size} className="border-b border-obsidian/8">
                       <td className="py-2.5 pr-3 font-medium">{row.size}</td>
-                      <td className="py-2.5 pr-3">{row.bust}</td>
+                      <td className="py-2.5 pr-3">{(row as any).chest || (row as any).bust}</td>
                       <td className="py-2.5 pr-3">{row.waist}</td>
-                      <td className="py-2.5">{row.hip}</td>
+                      <td className="py-2.5">{(row as any).length || (row as any).hip}</td>
                     </tr>
                   ))}
                 </tbody>

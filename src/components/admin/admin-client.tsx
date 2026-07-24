@@ -185,7 +185,7 @@ export function AdminClient({
   const [editedProducts, setEditedProducts] = useState<Record<number, any>>({});
   const [inventorySearch, setInventorySearch] = useState("");
   const [inventoryPage, setInventoryPage] = useState(1);
-  const ITEMS_PER_PAGE = 20;
+  const ITEMS_PER_PAGE = 10;
   const [isSaving, setIsSaving] = useState(false);
 
   // ---- Financials: date-range filtering ----
@@ -726,10 +726,30 @@ export function AdminClient({
                               <div key={size} className="flex items-center justify-between border border-pearl/15 p-1 bg-pearl/[0.02]">
                                 <span className="text-pearl/60 w-12 truncate">{size}</span>
                                 <input 
-                                  type="number" 
-                                  min="0"
-                                  value={val}
-                                  onChange={(e) => updateStockBySize(p.id, currentStock, size, e.target.value)}
+                                  type="text" 
+                                  defaultValue={val}
+                                  placeholder={val.toString()}
+                                  onBlur={(e) => {
+                                    const raw = e.target.value.trim();
+                                    if (!raw) return;
+                                    let newVal = val;
+                                    if (raw.startsWith('+')) {
+                                      newVal = val + (parseInt(raw.substring(1)) || 0);
+                                    } else if (raw.startsWith('-')) {
+                                      newVal = Math.max(0, val - (parseInt(raw.substring(1)) || 0));
+                                    } else {
+                                      newVal = parseInt(raw) || 0;
+                                    }
+                                    e.target.value = newVal.toString();
+                                    if (newVal !== val) {
+                                      updateStockBySize(p.id, currentStock, size, newVal.toString());
+                                    }
+                                  }}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                      e.currentTarget.blur();
+                                    }
+                                  }}
                                   className={cn("w-12 bg-transparent text-right outline-none font-mono border-b border-transparent focus:border-champagne transition-colors", val === 0 ? "text-red-400" : "text-champagne")}
                                 />
                               </div>

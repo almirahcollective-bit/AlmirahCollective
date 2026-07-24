@@ -1221,12 +1221,22 @@ export const FAQS = [
 ];
 
 export const SIZE_CHART = {
-  tops: [
+  womensTops: [
     { size: "XS", bust: "32", waist: "24", hip: "34" },
     { size: "S", bust: "34", waist: "26", hip: "36" },
     { size: "M", bust: "36", waist: "28", hip: "38" },
     { size: "L", bust: "38", waist: "30", hip: "40" },
     { size: "XL", bust: "40", waist: "32", hip: "42" },
+    { size: "2XL", bust: "42", waist: "34", hip: "44" },
+    { size: "3XL", bust: "44", waist: "36", hip: "46" },
+  ],
+  mensTops: [
+    { size: "S", chest: "38", waist: "30", length: "27" },
+    { size: "M", chest: "40", waist: "32", length: "28" },
+    { size: "L", chest: "42", waist: "34", length: "29" },
+    { size: "XL", chest: "44", waist: "36", length: "30" },
+    { size: "2XL", chest: "46", waist: "38", length: "31" },
+    { size: "3XL", chest: "48", waist: "40", length: "32" },
   ],
   bottoms: [
     { size: "24", waist: "24", hip: "34" },
@@ -1234,6 +1244,8 @@ export const SIZE_CHART = {
     { size: "28", waist: "28", hip: "38" },
     { size: "30", waist: "30", hip: "40" },
     { size: "32", waist: "32", hip: "42" },
+    { size: "34", waist: "34", hip: "44" },
+    { size: "36", waist: "36", hip: "46" },
   ],
 };
 

@@ -56,6 +56,7 @@ export default async function HomePage() {
         images: products.images,
         price: products.price,
         tags: products.tags,
+        stock: products.stock,
       })
       .from(products),
     db
