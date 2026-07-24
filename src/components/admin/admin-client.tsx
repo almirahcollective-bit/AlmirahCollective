@@ -604,7 +604,7 @@ export function AdminClient({
                     <div className="pt-2 border-t border-pearl/10">
                       <p className="text-[10px] uppercase tracking-widest text-champagne mb-2">Initial Stock</p>
                       <div className="grid grid-cols-2 gap-3">
-                        {["S", "L", "XL", "XXL", "Free Size"].map(s => (
+                        {["S", "M", "L", "XL", "XXL", "3XL", "Free Size"].map(s => (
                           <label key={s} className="flex items-center justify-between border border-pearl/10 px-2 py-1">
                             <span className="text-xs">{s}</span>
                             <input type="number" min="0" className="w-16 bg-transparent text-right outline-none" value={(newProductForm.stockBySize as any)[s]} onChange={e => setNewProductForm({...newProductForm, stockBySize: {...newProductForm.stockBySize, [s]: parseInt(e.target.value) || 0}})} />
@@ -720,7 +720,7 @@ export function AdminClient({
                       </td>
                       <td className="px-4 py-3">
                         <div className="grid grid-cols-2 gap-2 text-xs">
-                          {["S", "L", "XL", "XXL", "Free Size"].map(size => {
+                          {["S", "M", "L", "XL", "XXL", "3XL", "Free Size"].map(size => {
                             const val = currentStock[size] || 0;
                             return (
                               <div key={size} className="flex items-center justify-between border border-pearl/15 p-1 bg-pearl/[0.02]">
