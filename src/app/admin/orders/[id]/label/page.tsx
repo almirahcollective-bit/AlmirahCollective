@@ -4,8 +4,9 @@ import { orders, orderItems } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { PrintButton } from "./print-button";
 
-export default async function ShippingLabelPage({ params }: { params: { id: string } }) {
-  const orderId = Number(params.id);
+export default async function ShippingLabelPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const orderId = Number(id);
   if (isNaN(orderId)) return notFound();
 
   const [order] = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1);

@@ -5,8 +5,9 @@ import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { formatCurrency } from "@/lib/utils";
 
-export default async function OrderDetailPage({ params }: { params: { id: string } }) {
-  const orderId = Number(params.id);
+export default async function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const orderId = Number(id);
   if (isNaN(orderId)) return notFound();
 
   const [order] = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1);
