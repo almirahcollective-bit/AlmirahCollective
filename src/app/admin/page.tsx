@@ -51,7 +51,8 @@ export default async function AdminPage() {
     })),
   }));
 
-  const revenue = allOrders.reduce((s, o) => s + Number(o.total), 0);
+  const validOrders = allOrders.filter(o => !["cancelled", "returned"].includes(o.status));
+  const revenue = validOrders.reduce((s, o) => s + Number(o.total), 0);
   const lowStock = allProducts.filter((p) => p.stock < 15).length;
   const openComplaints = allComplaints.filter((c) =>
     ["open", "in_review"].includes(c.status),
@@ -128,7 +129,7 @@ export default async function AdminPage() {
         lowStock,
         openComplaints,
         activeLeads,
-        avgOrder: allOrders.length ? revenue / allOrders.length : 0,
+        avgOrder: validOrders.length ? revenue / validOrders.length : 0,
       }}
       orders={ordersWithItems.map((o) => ({
         id: o.id,

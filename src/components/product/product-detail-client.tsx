@@ -216,7 +216,10 @@ export function ProductDetailClient({
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 {product.sizes.map((s) => {
-                  const isAvailable = !(product.isOutOfStock || product.stock === 0);
+                  const stockForSize = (product.stockBySize as Record<string, number>)?.[s];
+                  const isAvailable = stockForSize !== undefined 
+                    ? stockForSize > 0 
+                    : !(product.isOutOfStock || product.stock === 0);
                   return (
                   <button
                     key={s}
@@ -224,15 +227,17 @@ export function ProductDetailClient({
                     disabled={!isAvailable}
                     onClick={() => setSize(s)}
                     className={cn(
-                      "min-w-12 border px-3 py-2.5 text-sm transition relative overflow-hidden",
-                      !isAvailable && "opacity-40 cursor-not-allowed bg-transparent border-obsidian/10 text-obsidian/40",
+                      "min-w-12 border px-3 py-2.5 text-sm transition relative overflow-hidden flex items-center justify-center",
+                      !isAvailable && "opacity-50 cursor-not-allowed bg-transparent border-obsidian/20 text-obsidian/50",
                       isAvailable && size === s
                         ? "border-obsidian bg-obsidian text-pearl"
                         : "border-obsidian/20 hover:border-obsidian",
                     )}
                   >
                     {s}
-                    {!isAvailable && <span className="absolute inset-0 border-t border-obsidian/40 rotate-[20deg] scale-150 origin-center" />}
+                    {!isAvailable && (
+                      <span className="absolute top-1/2 left-1/2 w-[150%] h-[1px] bg-obsidian/40 -translate-x-1/2 -translate-y-1/2 -rotate-[25deg]" />
+                    )}
                   </button>
                 )})}
               </div>
