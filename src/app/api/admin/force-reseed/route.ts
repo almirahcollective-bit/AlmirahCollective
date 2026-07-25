@@ -42,7 +42,7 @@ export async function GET() {
       stock: p.stock,
       isFeatured: p.isFeatured,
       isTrending: p.isTrending,
-      rating: p.rating,
+      rating: String(p.rating),
       reviewCount: p.reviewCount,
     })));
     
