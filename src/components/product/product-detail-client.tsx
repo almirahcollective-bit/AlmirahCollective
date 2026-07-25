@@ -66,6 +66,7 @@ export function ProductDetailClient({
   const [activeImage, setActiveImage] = useState(0);
 
   const [size, setSize] = useState(() => {
+    if (product.categorySlug === "accessories") return "FS";
     return product.sizes[0] ?? "";
   });
 
@@ -199,42 +200,44 @@ export function ProductDetailClient({
 
 
           {/* Sizes */}
-          <div className="mt-7">
-            <div className="flex items-center justify-between">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-obsidian/50">
-                Size — {size}
-              </p>
-              <button
-                type="button"
-                onClick={() => setSizeGuide(true)}
-                className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.15em] text-champagne-dark"
-              >
-                <Ruler className="h-3.5 w-3.5" /> Find My Size
-              </button>
-            </div>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {product.sizes.map((s) => {
-                const isAvailable = !(product.isOutOfStock || product.stock === 0);
-                return (
+          {product.categorySlug !== "accessories" && (
+            <div className="mt-7">
+              <div className="flex items-center justify-between">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-obsidian/50">
+                  Size — {size}
+                </p>
                 <button
-                  key={s}
                   type="button"
-                  disabled={!isAvailable}
-                  onClick={() => setSize(s)}
-                  className={cn(
-                    "min-w-12 border px-3 py-2.5 text-sm transition relative overflow-hidden",
-                    !isAvailable && "opacity-40 cursor-not-allowed bg-transparent border-obsidian/10 text-obsidian/40",
-                    isAvailable && size === s
-                      ? "border-obsidian bg-obsidian text-pearl"
-                      : "border-obsidian/20 hover:border-obsidian",
-                  )}
+                  onClick={() => setSizeGuide(true)}
+                  className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.15em] text-champagne-dark"
                 >
-                  {s}
-                  {!isAvailable && <span className="absolute inset-0 border-t border-obsidian/40 rotate-[20deg] scale-150 origin-center" />}
+                  <Ruler className="h-3.5 w-3.5" /> Find My Size
                 </button>
-              )})}
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {product.sizes.map((s) => {
+                  const isAvailable = !(product.isOutOfStock || product.stock === 0);
+                  return (
+                  <button
+                    key={s}
+                    type="button"
+                    disabled={!isAvailable}
+                    onClick={() => setSize(s)}
+                    className={cn(
+                      "min-w-12 border px-3 py-2.5 text-sm transition relative overflow-hidden",
+                      !isAvailable && "opacity-40 cursor-not-allowed bg-transparent border-obsidian/10 text-obsidian/40",
+                      isAvailable && size === s
+                        ? "border-obsidian bg-obsidian text-pearl"
+                        : "border-obsidian/20 hover:border-obsidian",
+                    )}
+                  >
+                    {s}
+                    {!isAvailable && <span className="absolute inset-0 border-t border-obsidian/40 rotate-[20deg] scale-150 origin-center" />}
+                  </button>
+                )})}
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             {(product.isOutOfStock || product.stock === 0) ? (

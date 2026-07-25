@@ -18,16 +18,10 @@ export default async function ShopPage({
 }: {
   searchParams: Promise<{ page?: string }>;
 }) {
-  const { page: pageStr } = await searchParams;
-  const page = Number(pageStr) || 1;
-  const perPage = 10;
-  
   const all = await db
     .select()
     .from(products)
-    .orderBy(desc(products.isFeatured))
-    .limit(perPage)
-    .offset((page - 1) * perPage);
+    .orderBy(desc(products.createdAt));
 
   // We should also get total count for pagination controls, but keeping it simple for now.
 
@@ -76,25 +70,6 @@ export default async function ShopPage({
             isOutOfStock={p.isOutOfStock}
           />
         ))}
-      </div>
-      
-      <div className="mt-12 flex items-center justify-center gap-4">
-        {page > 1 && (
-          <Link
-            href={`/shop?page=${page - 1}`}
-            className="border border-obsidian px-6 py-3 text-[11px] uppercase tracking-[0.2em] text-obsidian hover:bg-obsidian hover:text-pearl transition"
-          >
-            Previous
-          </Link>
-        )}
-        {all.length === perPage && (
-          <Link
-            href={`/shop?page=${page + 1}`}
-            className="border border-obsidian px-6 py-3 text-[11px] uppercase tracking-[0.2em] text-obsidian hover:bg-obsidian hover:text-pearl transition"
-          >
-            Next
-          </Link>
-        )}
       </div>
     </div>
   );

@@ -124,6 +124,15 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 )}
               </div>
             </section>
+
+            {order.notes && (
+              <section className="bg-pearl/[0.03] border border-pearl/10 p-6">
+                <h2 className="text-[11px] uppercase tracking-widest text-pearl/50 mb-4 border-b border-pearl/10 pb-2">Payment Details / Notes</h2>
+                <div className="text-sm text-pearl/80 whitespace-pre-wrap">
+                  {order.notes}
+                </div>
+              </section>
+            )}
           </div>
 
         </div>

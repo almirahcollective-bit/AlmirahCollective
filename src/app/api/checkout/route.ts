@@ -29,6 +29,7 @@ const checkoutSchema = z.object({
     country: z.string().optional(),
   }),
   discountCode: z.string().optional(),
+  paymentMethod: z.enum(["razorpay", "cod"]).optional(),
 });
 
 export async function POST(request: Request) {
@@ -145,6 +146,7 @@ export async function POST(request: Request) {
           country: body.address.country || "India",
           phone: body.phone,
         },
+        notes: body.paymentMethod ? `Payment Method: ${body.paymentMethod.toUpperCase()}` : null,
       })
       .returning();
 

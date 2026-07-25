@@ -137,6 +137,7 @@ export default function CheckoutPage() {
             country: countryName,
           },
           discountCode: appliedDiscount ? discountCodeStr : undefined,
+          paymentMethod,
         }),
       });
       const data = (await res.json()) as {
