@@ -95,7 +95,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               <div className="space-y-1 text-sm">
                 <p className="font-medium text-white">{order.customerName}</p>
                 <p className="text-pearl/60"><a href={`mailto:${order.customerEmail}`}>{order.customerEmail}</a></p>
-                {shippingAddress.phone && <p className="text-pearl/60"><a href={`tel:${shippingAddress.phone}`}>{shippingAddress.phone}</a></p>}
+                <p className="text-pearl/60">Phone: {shippingAddress.phone ? <a href={`tel:${shippingAddress.phone}`}>{shippingAddress.phone}</a> : "Not provided"}</p>
               </div>
             </section>
             
@@ -125,14 +125,12 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               </div>
             </section>
 
-            {order.notes && (
-              <section className="bg-pearl/[0.03] border border-pearl/10 p-6">
-                <h2 className="text-[11px] uppercase tracking-widest text-pearl/50 mb-4 border-b border-pearl/10 pb-2">Payment Details / Notes</h2>
-                <div className="text-sm text-pearl/80 whitespace-pre-wrap">
-                  {order.notes}
-                </div>
-              </section>
-            )}
+            <section className="bg-pearl/[0.03] border border-pearl/10 p-6">
+              <h2 className="text-[11px] uppercase tracking-widest text-pearl/50 mb-4 border-b border-pearl/10 pb-2">Payment Details / Notes</h2>
+              <div className="text-sm text-pearl/80 whitespace-pre-wrap">
+                {order.notes ? order.notes : "Payment Method: Online (Razorpay) / Not Recorded (Legacy)"}
+              </div>
+            </section>
           </div>
 
         </div>
