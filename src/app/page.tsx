@@ -4,7 +4,6 @@ import { ArrowRight, BadgeCheck, Package, Sparkles, Truck, Heart, CheckSquare, M
 import { desc, eq, and, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { products, pressMentions, reviews } from "@/db/schema";
-import { ensureSeeded } from "@/lib/seed";
 import {
   CATEGORIES,
   LOOKBOOK,
@@ -31,8 +30,6 @@ const OCCASION_ICONS: Record<string, string> = {
 };
 
 export default async function HomePage() {
-  await ensureSeeded();
-
   const [featured, trending, press, allProducts, approvedReviews] = await Promise.all([
     db
       .select()

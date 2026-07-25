@@ -4,13 +4,16 @@ import { notFound } from "next/navigation";
 import { eq, and, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { products } from "@/db/schema";
-import { ensureSeeded } from "@/lib/seed";
 import { CATEGORIES } from "@/lib/catalog";
 import { ProductCard } from "@/components/product/product-card";
 
 export const revalidate = 60;
 
 type Props = { params: Promise<{ category: string }> };
+
+export async function generateStaticParams() {
+  return CATEGORIES.map((c) => ({ category: c.slug }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params;
@@ -26,14 +29,14 @@ export default async function CategoryPage({
   searchParams,
 }: {
   params: Promise<{ category: string }>;
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }) {
-  await ensureSeeded();
   const { category } = await params;
+  const { page: pageStr } = await searchParams;
   const cat = CATEGORIES.find((c) => c.slug === category);
   if (!cat) notFound();
 
-  const page = Number(searchParams.page) || 1;
+  const page = Number(pageStr) || 1;
   const perPage = 10;
 
   const items = await db

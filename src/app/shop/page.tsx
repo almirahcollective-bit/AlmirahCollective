@@ -3,7 +3,6 @@ import Link from "next/link";
 import { desc, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { products } from "@/db/schema";
-import { ensureSeeded } from "@/lib/seed";
 import { CATEGORIES } from "@/lib/catalog";
 import { ProductCard } from "@/components/product/product-card";
 
@@ -17,11 +16,10 @@ export const metadata: Metadata = {
 export default async function ShopPage({
   searchParams,
 }: {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }) {
-  await ensureSeeded();
-  
-  const page = Number(searchParams.page) || 1;
+  const { page: pageStr } = await searchParams;
+  const page = Number(pageStr) || 1;
   const perPage = 10;
   
   const all = await db

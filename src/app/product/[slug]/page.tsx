@@ -3,15 +3,18 @@ import { notFound } from "next/navigation";
 import { eq, ne, and } from "drizzle-orm";
 import { db } from "@/db";
 import { products, reviews } from "@/db/schema";
-import { ensureSeeded } from "@/lib/seed";
 import { ProductDetailClient } from "@/components/product/product-detail-client";
 
 export const revalidate = 60;
 
 type Props = { params: Promise<{ slug: string }> };
 
+export async function generateStaticParams() {
+  const all = await db.select({ slug: products.slug }).from(products);
+  return all.map((p) => ({ slug: p.slug }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  await ensureSeeded();
   const { slug } = await params;
   const [product] = await db
     .select()
@@ -29,7 +32,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params }: Props) {
-  await ensureSeeded();
   const { slug } = await params;
 
   const [product] = await db
