@@ -23,6 +23,7 @@ export async function PATCH(request: Request) {
     if (body.stockBySize) {
       updates.stockBySize = body.stockBySize;
       updates.stock = Object.values(body.stockBySize).reduce((a, b) => a + b, 0);
+      updates.sizes = Object.keys(body.stockBySize);
     }
     
     if (body.price !== undefined) updates.price = String(body.price);
@@ -61,7 +62,7 @@ export async function POST(request: Request) {
       price: String(body.price),
       images: body.images || (body.image ? [body.image] : []),
       colors: [], // Can be expanded later
-      sizes: Object.keys(body.stockBySize || {}).filter(s => (body.stockBySize[s] as number) > 0),
+      sizes: Object.keys(body.stockBySize || { S: 0, M: 0, L: 0, XL: 0, XXL: 0, "3XL": 0, "Free Size": 0 }),
       stockBySize: body.stockBySize || { S: 0, L: 0, XL: 0, XXL: 0, "Free Size": 0 },
       stock: totalStock,
       isOutOfStock: body.isOutOfStock || false,

@@ -215,7 +215,9 @@ export function ProductDetailClient({
                 </button>
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
-                {product.sizes.map((s) => {
+                {((product.stockBySize && Object.keys(product.stockBySize).length > 0) 
+                   ? Object.keys(product.stockBySize) 
+                   : product.sizes).map((s) => {
                   let parsedStock = product.stockBySize as Record<string, number> | null;
                   if (typeof parsedStock === 'string') {
                     try { parsedStock = JSON.parse(parsedStock); } catch(e) {}
