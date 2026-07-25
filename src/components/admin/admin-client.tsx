@@ -32,6 +32,15 @@ type Order = {
   courier: string | null;
   createdAt: Date | string;
   customerPhone?: string | null;
+  shippingAddress?: {
+    line1: string;
+    line2?: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country?: string;
+    phone?: string;
+  } | null;
   items?: { productName: string; price?: string; quantity?: number }[];
 };
 
@@ -568,6 +577,22 @@ export function AdminClient({
                             </option>
                           ))}
                         </select>
+                        <div className="mt-3 grid grid-cols-2 gap-2">
+                          <a
+                            href={`/admin/orders/${o.id}`}
+                            className="block text-center border border-pearl/20 py-1.5 text-[10px] uppercase tracking-wider text-pearl/80 hover:bg-pearl/5"
+                          >
+                            Details
+                          </a>
+                          <a
+                            href={`/admin/orders/${o.id}/label`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="block text-center border border-champagne/40 py-1.5 text-[10px] uppercase tracking-wider text-champagne hover:bg-champagne/10"
+                          >
+                            Print Label
+                          </a>
+                        </div>
                       </div>
                     ))}
                   </div>

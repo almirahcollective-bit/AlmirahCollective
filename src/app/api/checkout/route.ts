@@ -143,6 +143,7 @@ export async function POST(request: Request) {
           state: body.address.state,
           postalCode: body.address.postalCode,
           country: body.address.country || "India",
+          phone: body.phone,
         },
       })
       .returning();

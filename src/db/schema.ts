@@ -147,6 +147,7 @@ export const orders = pgTable("orders", {
     state: string;
     postalCode: string;
     country: string;
+    phone?: string;
   }>(),
   trackingNumber: varchar("tracking_number", { length: 80 }),
   courier: varchar("courier", { length: 80 }),

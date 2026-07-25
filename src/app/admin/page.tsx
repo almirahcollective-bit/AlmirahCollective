@@ -42,7 +42,13 @@ export default async function AdminPage() {
     trackingNumber: o.trackingNumber,
     courier: o.courier,
     createdAt: o.createdAt,
-    items: [],
+    customerPhone: o.shippingAddress?.phone ?? null,
+    shippingAddress: o.shippingAddress,
+    items: allOrderItems.filter(item => item.orderId === o.id).map(item => ({
+      productName: item.productName,
+      price: item.unitPrice,
+      quantity: item.quantity
+    })),
   }));
 
   const revenue = allOrders.reduce((s, o) => s + Number(o.total), 0);
