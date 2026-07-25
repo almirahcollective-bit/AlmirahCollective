@@ -92,8 +92,10 @@ export async function POST(request: Request) {
       });
 
       const sizeToDeduct = item.size || "Free Size";
-      const currentStockBySize = product.stockBySize as Record<string, number>;
-      const currentSizeStock = currentStockBySize[sizeToDeduct] || 0;
+      const currentStockBySize = (product.stockBySize as Record<string, number>) || {};
+      
+      const hasSizeConfig = Object.keys(currentStockBySize).length > 0;
+      const currentSizeStock = hasSizeConfig ? (currentStockBySize[sizeToDeduct] || 0) : product.stock;
       
       if (currentSizeStock < qty) {
         return NextResponse.json(
@@ -102,11 +104,11 @@ export async function POST(request: Request) {
         );
       }
 
-      const newStockBySize = { 
+      const newStockBySize = hasSizeConfig ? { 
         ...currentStockBySize, 
         [sizeToDeduct]: currentSizeStock - qty 
-      };
-      const newTotalStock = Object.values(newStockBySize).reduce((a, b) => a + b, 0);
+      } : currentStockBySize;
+      const newTotalStock = hasSizeConfig ? Object.values(newStockBySize).reduce((a, b) => a + b, 0) : product.stock - qty;
 
       await db
         .update(products)
