@@ -277,6 +277,10 @@ export function AdminClient({
     updateProductDraft(id, { price, compareAtPrice });
   }
 
+  function updateProductCategory(id: number, categorySlug: string) {
+    updateProductDraft(id, { categorySlug });
+  }
+
   function updateStockBySize(id: number, currentStock: Record<string, number>, size: string, newStr: string) {
     const val = parseInt(newStr) || 0;
     const draftedStock = editedProducts[id]?.stockBySize || currentStock;
@@ -629,6 +633,7 @@ export function AdminClient({
                       <option className="bg-obsidian" value="co-ord-sets">Co-ord Sets</option>
                       <option className="bg-obsidian" value="blouses-tops">Blouses & Tops</option>
                       <option className="bg-obsidian" value="active-wear">Active-Wear</option>
+                      <option className="bg-obsidian" value="accessories">Accessories</option>
                     </select>
 
                     <div className="pt-2 border-t border-pearl/10">
@@ -741,8 +746,21 @@ export function AdminClient({
                           </label>
                         </div>
                       </td>
-                      <td className="px-4 py-3 align-top capitalize text-pearl/60">
-                        {p.categorySlug.replace(/-/g, " ")}
+                      <td className="px-4 py-3 align-top text-pearl/60">
+                        <select 
+                          className="w-full bg-transparent border border-pearl/20 px-2 py-1 text-xs capitalize"
+                          value={editedProducts[p.id]?.categorySlug || p.categorySlug}
+                          onChange={(e) => updateProductCategory(p.id, e.target.value)}
+                        >
+                          <option className="bg-obsidian" value="womens-wear">Women's Wear</option>
+                          <option className="bg-obsidian" value="mens-wear">Men's Wear</option>
+                          <option className="bg-obsidian" value="indian-casuals">Indian Casuals</option>
+                          <option className="bg-obsidian" value="dresses">Dresses</option>
+                          <option className="bg-obsidian" value="co-ord-sets">Co-ord Sets</option>
+                          <option className="bg-obsidian" value="blouses-tops">Blouses & Tops</option>
+                          <option className="bg-obsidian" value="active-wear">Active-Wear</option>
+                          <option className="bg-obsidian" value="accessories">Accessories</option>
+                        </select>
                         <div className="mt-3 space-y-1.5 w-32">
                           <label className="flex items-center justify-between gap-2">
                             <span className="text-[9px] uppercase tracking-widest text-champagne">Sell</span>
