@@ -222,8 +222,9 @@ export function AdminClient({
   }, [orders, from, to]);
 
   const finStats = useMemo(() => {
-    const value = rangedOrders.reduce((s, o) => s + Number(o.total), 0);
-    const volume = rangedOrders.length;
+    const validOrders = rangedOrders.filter(o => o.status !== "cancelled" && o.status !== "returned");
+    const value = validOrders.reduce((s, o) => s + Number(o.total), 0);
+    const volume = validOrders.length;
     const aov = volume ? value / volume : 0;
     // daily buckets across the selected window
     const buckets: { label: string; value: number; volume: number }[] = [];
@@ -232,7 +233,7 @@ export function AdminClient({
     const cursor = new Date(from);
     for (let i = 0; i < totalDays; i++) {
       const key = cursor.toISOString().slice(0, 10);
-      const dayOrders = rangedOrders.filter(
+      const dayOrders = validOrders.filter(
         (o) => new Date(o.createdAt).toISOString().slice(0, 10) === key,
       );
       buckets.push({
@@ -536,7 +537,7 @@ export function AdminClient({
               Kanban-style status pipeline — update to print-ready tracking numbers.
             </p>
             <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              {["placed", "confirming", "packed", "dispatched", "on_the_way", "delivered"].map((status) => (
+              {["placed", "confirming", "packed", "dispatched", "on_the_way", "delivered", "cancelled", "returned"].map((status) => (
                 <div key={status} className="border border-pearl/10 bg-pearl/[0.03]">
                   <div className="border-b border-pearl/10 px-4 py-3">
                     <p className="text-[10px] uppercase tracking-[0.2em] text-champagne">
