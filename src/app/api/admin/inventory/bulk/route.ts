@@ -22,6 +22,7 @@ export async function PATCH(request: Request) {
       if (update.stock !== undefined) updateData.stock = update.stock;
       if (update.stockBySize !== undefined) updateData.stockBySize = update.stockBySize;
       if (update.isOutOfStock !== undefined) updateData.isOutOfStock = update.isOutOfStock;
+      if (update.categorySlug !== undefined) updateData.categorySlug = update.categorySlug;
 
       if (Object.keys(updateData).length > 0) {
         await db
