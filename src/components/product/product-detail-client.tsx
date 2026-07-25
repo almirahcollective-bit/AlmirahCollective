@@ -215,9 +215,7 @@ export function ProductDetailClient({
                 </button>
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
-                {((product.stockBySize && Object.keys(product.stockBySize).length > 0) 
-                   ? Object.keys(product.stockBySize) 
-                   : product.sizes).map((s) => {
+                {["S", "M", "L", "XL", "XXL", "3XL", "Free Size"].map((s) => {
                   let parsedStock = product.stockBySize as Record<string, number> | null;
                   if (typeof parsedStock === 'string') {
                     try { parsedStock = JSON.parse(parsedStock); } catch(e) {}
@@ -225,7 +223,9 @@ export function ProductDetailClient({
                   
                   const cleanSize = s.trim();
                   
-                  const isAvailable = parsedStock && Object.keys(parsedStock).length > 0
+                  const hasAnySizeStock = parsedStock && Object.values(parsedStock).some(v => v > 0);
+                  
+                  const isAvailable = hasAnySizeStock
                     ? (parsedStock[cleanSize] || parsedStock[s] || 0) > 0 
                     : !(product.isOutOfStock || product.stock === 0);
                   

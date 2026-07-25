@@ -94,7 +94,7 @@ export async function POST(request: Request) {
       const sizeToDeduct = item.size || "Free Size";
       const currentStockBySize = (product.stockBySize as Record<string, number>) || {};
       
-      const hasSizeConfig = Object.keys(currentStockBySize).length > 0;
+      const hasSizeConfig = Object.values(currentStockBySize).some(v => Number(v) > 0);
       const currentSizeStock = hasSizeConfig ? (currentStockBySize[sizeToDeduct] || 0) : product.stock;
       
       if (currentSizeStock < qty) {
