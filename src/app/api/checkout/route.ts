@@ -11,7 +11,7 @@ import { sendOrderNotification } from "@/lib/notifications";
 const checkoutSchema = z.object({
   email: z.string().email("Invalid email address"),
   name: z.string().min(2, "Name is required"),
-  phone: z.string().regex(/^[6-9]\d{9}$/, "Must be a valid 10-digit Indian phone number"),
+  phone: z.string().min(5, "Must be a valid phone number"),
   items: z.array(
     z.object({
       productId: z.number(),
@@ -25,7 +25,7 @@ const checkoutSchema = z.object({
     line2: z.string().optional(),
     city: z.string().min(2, "City is required"),
     state: z.string().min(2, "State is required"),
-    postalCode: z.string().regex(/^\d{6}$/, "Must be a valid 6-digit postal code"),
+    postalCode: z.string().min(3, "Must be a valid postal code"),
     country: z.string().optional(),
   }),
   discountCode: z.string().optional(),
