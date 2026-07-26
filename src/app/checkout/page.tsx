@@ -412,9 +412,6 @@ export default function CheckoutPage() {
             <MagneticButton type="submit" className="w-full" disabled={loading}>
               {loading ? "Placing order..." : paymentMethod === "cod" ? "Place Order" : `Pay ${formatCurrency(total)}`}
             </MagneticButton>
-            <p className="text-center text-xs text-obsidian/40">
-              Demo checkout — no real payment processed
-            </p>
           </form>
         </div>
 
