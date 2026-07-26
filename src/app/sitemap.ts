@@ -3,7 +3,7 @@ import { db } from '@/db';
 import { products } from '@/db/schema';
 import { CATEGORIES } from '@/lib/catalog';
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://almirahcollective.com';
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://almirahcollective.in';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const allProducts = await db.select({ slug: products.slug, updatedAt: products.updatedAt }).from(products);
