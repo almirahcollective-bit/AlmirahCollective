@@ -8,7 +8,7 @@ interface RazorpayIntegrationProps {
   phone: string
   name?: string
   orderId?: string
-  onSuccess: () => void
+  onSuccess: (response?: any) => void
   onClose: () => void
 }
 
@@ -52,7 +52,7 @@ export function RazorpayIntegration({
             order_id: data.id,
             handler: function (response: any) {
               console.log('Payment success', response)
-              onSuccess()
+              onSuccess(response)
             },
             prefill: {
               name,

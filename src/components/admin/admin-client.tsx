@@ -134,6 +134,7 @@ const TABS = [
 type TabId = (typeof TABS)[number]["id"];
 
 const ORDER_STATUSES = [
+  "pending_payment",
   "placed",
   "confirming",
   "packed",
@@ -222,7 +223,7 @@ export function AdminClient({
   }, [orders, from, to]);
 
   const finStats = useMemo(() => {
-    const validOrders = rangedOrders.filter(o => o.status !== "cancelled" && o.status !== "returned");
+    const validOrders = rangedOrders.filter(o => o.status !== "cancelled" && o.status !== "returned" && o.status !== "pending_payment");
     const value = validOrders.reduce((s, o) => s + Number(o.total), 0);
     const volume = validOrders.length;
     const aov = volume ? value / volume : 0;
@@ -537,7 +538,7 @@ export function AdminClient({
               Kanban-style status pipeline — update to print-ready tracking numbers.
             </p>
             <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              {["placed", "confirming", "packed", "dispatched", "on_the_way", "delivered", "cancelled", "returned"].map((status) => (
+              {["pending_payment", "placed", "confirming", "packed", "dispatched", "on_the_way", "delivered", "cancelled", "returned"].map((status) => (
                 <div key={status} className="border border-pearl/10 bg-pearl/[0.03]">
                   <div className="border-b border-pearl/10 px-4 py-3">
                     <p className="text-[10px] uppercase tracking-[0.2em] text-champagne">

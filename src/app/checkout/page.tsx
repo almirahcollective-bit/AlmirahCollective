@@ -161,7 +161,24 @@ export default function CheckoutPage() {
     }
   }
 
-  function handlePaymentSuccess() {
+  async function handlePaymentSuccess(response?: any) {
+    if (response) {
+      try {
+        await fetch('/api/razorpay/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            orderNumber: pendingOrder,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+          })
+        });
+      } catch (e) {
+        console.error("Failed to verify payment", e);
+      }
+    }
+    
     setShowPayment(false);
     clearCart();
     router.push(`/checkout/success?order=${pendingOrder || ""}`);

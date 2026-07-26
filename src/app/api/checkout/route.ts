@@ -134,7 +134,7 @@ export async function POST(request: Request) {
         orderNumber: generateOrderNumber(),
         customerEmail: body.email.trim().toLowerCase(),
         customerName: body.name.trim(),
-        status: "placed",
+        status: body.paymentMethod === "cod" ? "placed" : "pending_payment",
         subtotal: String(finalSubtotal),
         shipping: String(shipping),
         tax: "0",
