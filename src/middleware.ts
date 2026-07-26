@@ -23,32 +23,6 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // Maintenance Mode Intercept - Block all non-admin routes
-  if (!req.nextUrl.pathname.startsWith('/admin') && !req.nextUrl.pathname.startsWith('/api/admin')) {
-    return new NextResponse(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <title>Site Under Maintenance</title>
-          <style>
-            body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #0a0a0a; color: #fafafa; text-align: center; margin: 0; }
-            h1 { font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; font-size: 24px; }
-            p { color: #888; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 1rem; }
-          </style>
-        </head>
-        <body>
-          <div>
-            <h1>Almirah Collective</h1>
-            <p>Site Under Maintenance. We'll be back shortly.</p>
-          </div>
-        </body>
-      </html>
-    `, {
-      status: 503,
-      headers: { 'content-type': 'text/html' }
-    });
-  }
-
   return res
 }
 
