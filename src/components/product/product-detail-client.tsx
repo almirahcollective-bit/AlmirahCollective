@@ -226,7 +226,7 @@ export function ProductDetailClient({
                   const hasAnySizeStock = parsedStock && Object.values(parsedStock).some(v => v > 0);
                   
                   const isAvailable = hasAnySizeStock
-                    ? (parsedStock[cleanSize] || parsedStock[s] || 0) > 0 
+                    ? (parsedStock?.[cleanSize] || parsedStock?.[s] || 0) > 0 
                     : !(product.isOutOfStock || product.stock === 0);
                   
                   return (
