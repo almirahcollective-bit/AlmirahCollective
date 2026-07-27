@@ -79,34 +79,20 @@ export default async function AdminPage() {
   const cartAdds = allCartItems.reduce((s, c) => s + c.quantity, 0);
   const cartSessions = new Set(allCartItems.map((c) => c.sessionId)).size;
 
-  // Sessions by location — simulate live traffic
+  // Sessions by location — actual data from orders
   const cityAgg = new Map<string, number>();
-  // Use current minute to create realistic fluctuation
-  const fluctuation = new Date().getMinutes() % 15;
-  const seedCities: Record<string, number> = {
-    Bengaluru: 148 + fluctuation * 4,
-    Mumbai: 96 + fluctuation * 3,
-    Delhi: 71 + fluctuation * 2,
-    Hyderabad: 54 + (15 - fluctuation),
-    Chennai: 47 + fluctuation,
-    Pune: 39 + fluctuation,
-    Kolkata: 28 + Math.floor(fluctuation / 2),
-  };
-  for (const [city, count] of Object.entries(seedCities)) {
-    cityAgg.set(city, count);
+  for (const o of allOrders) {
+    if (o.shippingAddress?.city) {
+      const city = o.shippingAddress.city;
+      cityAgg.set(city, (cityAgg.get(city) ?? 0) + 1);
+    }
   }
   const sessionsByLocation = [...cityAgg.entries()]
     .map(([label, count]) => ({ label, count }))
     .sort((a, b) => b.count - a.count);
 
-  // Sessions by source — simulate live acquisition mix
-  const sourceAgg = new Map<string, number>([
-    ["Direct", 112 + fluctuation * 2],
-    ["Instagram", 98 + fluctuation * 5],
-    ["WhatsApp", 67 + fluctuation],
-    ["Google", 54 + Math.floor(fluctuation / 2)],
-    ["Referral", 31],
-  ]);
+  // Sessions by source — actual data from leads
+  const sourceAgg = new Map<string, number>();
   for (const l of allLeads) {
     const key =
       l.source === "inquiry" ? "WhatsApp" : l.source === "abandoned_cart" ? "Direct" : l.source;
