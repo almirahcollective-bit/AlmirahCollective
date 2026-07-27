@@ -45,7 +45,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
-  const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+  const googleVerification = "9azHp99v2_5bSCNQjY86QQAIXcMFUIQeiZ2rKrVYquU";
 
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
