@@ -84,7 +84,7 @@ export function Header() {
                     <div className="flex flex-col gap-2">
                       <Link href="/shop/mens-wear" className="group block py-2">
                         <p className="font-serif text-[15px] text-obsidian group-hover:text-champagne-dark transition-colors">
-                          Men's Wear
+                          Men&apos;s Wear
                         </p>
                         <p className="mt-1 text-xs leading-relaxed text-obsidian/50">
                           Curated menswear merging classic silhouettes with modern textures.
