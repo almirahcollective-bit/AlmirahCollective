@@ -82,7 +82,7 @@ export function CartDrawer() {
         <div className="flex-1 overflow-y-auto px-6 py-4">
           {items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
-              <p className="font-serif text-xl text-obsidian">Your cart is empty</p>
+              <p className="font-serif text-xl text-obsidian">Your bag is empty</p>
               <p className="mt-2 text-sm text-obsidian/50">
                 Discover quiet luxury pieces crafted for presence.
               </p>

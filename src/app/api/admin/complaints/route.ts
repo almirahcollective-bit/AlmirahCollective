@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { complaints } from "@/db/schema";
+import { complaints, orders } from "@/db/schema";
 import { ensureSeeded } from "@/lib/seed";
 
 export async function PATCH(request: Request) {
@@ -26,6 +26,18 @@ export async function PATCH(request: Request) {
       })
       .where(eq(complaints.id, body.id))
       .returning();
+
+    if (updated && body.status === "approved" && updated.orderId) {
+      let newOrderStatus = "returned";
+      if (updated.type === "cancel") {
+        newOrderStatus = "cancelled";
+      }
+      
+      await db
+        .update(orders)
+        .set({ status: newOrderStatus, updatedAt: new Date() })
+        .where(eq(orders.id, updated.orderId));
+    }
 
     return NextResponse.json({ complaint: updated });
   } catch {

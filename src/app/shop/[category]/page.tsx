@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { eq, and, sql } from "drizzle-orm";
+import { eq, and, sql, inArray, ne } from "drizzle-orm";
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import { CATEGORIES } from "@/lib/catalog";
@@ -35,10 +35,19 @@ export default async function CategoryPage({
   const cat = CATEGORIES.find((c) => c.slug === category);
   if (!cat) notFound();
 
-  const items = await db
-    .select()
-    .from(products)
-    .where(eq(products.categorySlug, category));
+  let items;
+  if (category === "womens-wear") {
+    // Women's wear should include all categories except men's wear
+    items = await db
+      .select()
+      .from(products)
+      .where(ne(products.categorySlug, "mens-wear"));
+  } else {
+    items = await db
+      .select()
+      .from(products)
+      .where(eq(products.categorySlug, category));
+  }
 
   return (
     <div className="mx-auto max-w-[1440px] px-5 pb-24 pt-32 md:pt-36 md:px-8">

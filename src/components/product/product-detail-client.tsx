@@ -2,14 +2,7 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  RotateCcw,
-  Ruler,
-  Star,
-  X,
-} from "lucide-react";
+import { Star, Plus, Minus, Ruler, ArrowRight, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 import { useCart } from "@/context/cart-context";
 import { SIZE_CHART } from "@/lib/catalog";
@@ -84,10 +77,15 @@ export function ProductDetailClient({
     ? Math.round(((compare - price) / compare) * 100) 
     : 0;
 
-  const stars = useMemo(
-    () => Math.round(Number(product.rating || 0)),
-    [product.rating],
-  );
+  function handleNextImage(e: React.MouseEvent) {
+    e.stopPropagation();
+    setActiveImage((prev) => (prev + 1) % product.images.length);
+  }
+
+  function handlePrevImage(e: React.MouseEvent) {
+    e.stopPropagation();
+    setActiveImage((prev) => (prev - 1 + product.images.length) % product.images.length);
+  }
 
   function handleAdd() {
     addItem({
@@ -98,6 +96,16 @@ export function ProductDetailClient({
       image: product.images[0],
       size,
     });
+  }
+
+  function handleWishlist() {
+    const saved = localStorage.getItem("almirah_wishlist");
+    let list = saved ? JSON.parse(saved) : [];
+    if (!list.some((p: any) => p.slug === product.slug)) {
+      list.push(product);
+      localStorage.setItem("almirah_wishlist", JSON.stringify(list));
+    }
+    window.location.href = "/account/wishlist";
   }
 
   return (
@@ -123,6 +131,24 @@ export function ProductDetailClient({
                 zoom && "scale-150",
               )}
             />
+            {product.images.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={handlePrevImage}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-pearl/50 p-2 text-obsidian backdrop-blur-md transition-colors hover:bg-pearl/80"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNextImage}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-pearl/50 p-2 text-obsidian backdrop-blur-md transition-colors hover:bg-pearl/80"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </>
+            )}
           </div>
           <div className="mt-3 flex gap-2 overflow-x-auto">
             {product.images.map((img, i) => (
@@ -160,24 +186,6 @@ export function ProductDetailClient({
           <h1 className="mt-2 font-serif text-3xl md:text-4xl lg:text-5xl leading-tight text-obsidian">
             {product.name}
           </h1>
-          <div className="mt-3 flex items-center gap-3">
-            <div className="flex items-center gap-0.5">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star
-                  key={i}
-                  className={cn(
-                    "h-3.5 w-3.5",
-                    i < stars
-                      ? "fill-champagne text-champagne"
-                      : "text-obsidian/20",
-                  )}
-                />
-              ))}
-            </div>
-            <span className="text-xs text-obsidian/50">
-              {product.rating} · {product.reviewCount} reviews
-            </span>
-          </div>
 
           <div className="mt-5 flex items-baseline gap-3">
             <span className="font-serif text-3xl">{formatCurrency(price)}</span>
@@ -266,8 +274,8 @@ export function ProductDetailClient({
                 Add to Bag — {formatCurrency(price)}
               </MagneticButton>
             )}
-            <MagneticButton variant="secondary" className="sm:w-auto">
-              Save
+            <MagneticButton onClick={handleWishlist} variant="secondary" className="sm:w-auto text-[10px] uppercase tracking-widest whitespace-nowrap px-6">
+              Add to Wishlist
             </MagneticButton>
           </div>
           <p className="mt-3 text-xs text-obsidian/40">

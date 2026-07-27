@@ -9,6 +9,7 @@ import { MagneticButton } from "@/components/ui/magnetic-button";
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { PRODUCTS } from "@/lib/catalog";
+import { ComplaintModal, ReviewModal } from "@/components/account/account-modals";
 
 export const dynamic = "force-dynamic";
 
@@ -35,6 +36,9 @@ function AccountContent({ user }: { user: User }) {
   const router = useRouter();
   const [orders, setOrders] = useState<AccountOrder[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [complaintModal, setComplaintModal] = useState<{ open: boolean; type: "cancel" | "return" | "replace"; orderId: number; orderNumber: string } | null>(null);
+  const [reviewModal, setReviewModal] = useState<{ open: boolean; productId: number; productName: string } | null>(null);
 
   useEffect(() => {
     async function fetchOrders() {
@@ -128,6 +132,7 @@ function AccountContent({ user }: { user: User }) {
                   <th className="px-4 py-3">Date</th>
                   <th className="px-4 py-3">Status</th>
                   <th className="px-4 py-3">Total</th>
+                  <th className="px-4 py-3">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -177,6 +182,36 @@ function AccountContent({ user }: { user: User }) {
                         {(order.status ?? "processed").replace(/_/g, " ")}
                       </td>
                       <td className="px-4 py-4 align-top">{formatCurrency(Number(order.total ?? 0))}</td>
+                      <td className="px-4 py-4 align-top">
+                        <div className="flex flex-col gap-2">
+                          {(order.status === "placed" || order.status === "processed" || order.status === "pending_payment") && (
+                            <button
+                              onClick={() => setComplaintModal({ open: true, type: "cancel", orderId: Number(order.id), orderNumber })}
+                              className="text-left text-xs uppercase tracking-widest text-obsidian/60 hover:text-obsidian"
+                            >
+                              Cancel Order
+                            </button>
+                          )}
+                          {order.status === "delivered" && (
+                            <>
+                              <button
+                                onClick={() => setComplaintModal({ open: true, type: "return", orderId: Number(order.id), orderNumber })}
+                                className="text-left text-xs uppercase tracking-widest text-obsidian/60 hover:text-obsidian"
+                              >
+                                Return / Replace
+                              </button>
+                              {order.order_items?.[0]?.product_id && (
+                                <button
+                                  onClick={() => setReviewModal({ open: true, productId: order.order_items![0].product_id!, productName: order.order_items![0].product_name! })}
+                                  className="text-left text-xs uppercase tracking-widest text-obsidian/60 hover:text-obsidian"
+                                >
+                                  Write a Review
+                                </button>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      </td>
                     </tr>
                   );
                 })}
@@ -185,6 +220,27 @@ function AccountContent({ user }: { user: User }) {
           </div>
         )}
       </section>
+
+      {complaintModal?.open && (
+        <ComplaintModal
+          isOpen={true}
+          onClose={() => setComplaintModal(null)}
+          type={complaintModal.type}
+          orderId={complaintModal.orderId}
+          orderNumber={complaintModal.orderNumber}
+          user={user}
+        />
+      )}
+
+      {reviewModal?.open && (
+        <ReviewModal
+          isOpen={true}
+          onClose={() => setReviewModal(null)}
+          productId={reviewModal.productId}
+          productName={reviewModal.productName}
+          user={user}
+        />
+      )}
     </div>
   );
 }

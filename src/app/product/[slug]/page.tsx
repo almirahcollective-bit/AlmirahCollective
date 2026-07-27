@@ -90,13 +90,6 @@ export default async function ProductPage({ params }: Props) {
                   ? "https://schema.org/InStock"
                   : "https://schema.org/OutOfStock",
             },
-            aggregateRating: product.reviewCount
-              ? {
-                  "@type": "AggregateRating",
-                  ratingValue: product.rating,
-                  reviewCount: product.reviewCount,
-                }
-              : undefined,
           }),
         }}
       />

@@ -50,6 +50,12 @@ export function Header() {
           </div>
 
           <nav className="hidden items-center gap-8 md:flex">
+            <Link
+              href="/"
+              className="group relative text-[11px] uppercase tracking-[0.2em] text-obsidian/80 transition-colors hover:text-obsidian border-b border-transparent hover:border-obsidian pb-1"
+            >
+              Home
+            </Link>
             <div
               className="relative"
               onMouseEnter={() => setMegaOpen(true)}
