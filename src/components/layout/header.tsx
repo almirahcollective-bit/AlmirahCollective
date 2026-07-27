@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Menu, Search, ShoppingBag, User, X, ChevronDown } from "lucide-react";
+import { Menu, Search, ShoppingBag, User, X, ChevronDown, Heart } from "lucide-react";
 import { CATEGORIES, BRAND } from "@/lib/catalog";
 import { useCart } from "@/context/cart-context";
 import { cn } from "@/lib/utils";
@@ -177,6 +177,13 @@ export function Header() {
             >
               <User className="h-4 w-4" />
             </Link>
+            <Link
+              href="/account/wishlist"
+              aria-label="Wishlist"
+              className="p-2 text-obsidian/80 hover:text-obsidian"
+            >
+              <Heart className="h-4 w-4" />
+            </Link>
             <button
               type="button"
               aria-label="Open cart"
@@ -238,6 +245,9 @@ export function Header() {
             </Link>
             <Link href="/account" onClick={() => setMobileOpen(false)}>
               Account
+            </Link>
+            <Link href="/account/wishlist" onClick={() => setMobileOpen(false)}>
+              Wishlist
             </Link>
           </div>
         </nav>
