@@ -28,6 +28,8 @@ export function ProductCard({
   priority = false,
   stock = 1,
   isOutOfStock = false,
+  categorySlug,
+  tags,
 }: ProductCardProps) {
   const primary = images[0];
   const secondary = images[1] ?? images[0];
