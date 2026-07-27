@@ -1045,7 +1045,7 @@ export function AdminClient({
                 </p>
               </div>
               <span className="border border-pearl/20 px-3 py-2 text-[10px] uppercase tracking-[0.15em] text-pearl/50">
-                All-time · demo + live data
+                All-time · live data
               </span>
             </div>
 
