@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Heart } from "lucide-react";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, cn } from "@/lib/utils";
 
 type ProductCardProps = {
   slug: string;
@@ -30,6 +31,48 @@ export function ProductCard({
 }: ProductCardProps) {
   const primary = images[0];
   const secondary = images[1] ?? images[0];
+
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const saved = localStorage.getItem("almirah_wishlist");
+    if (saved) {
+      try {
+        const list = JSON.parse(saved);
+        setIsWishlisted(list.some((p: any) => p.slug === slug));
+      } catch {
+        // ignore
+      }
+    }
+  }, [slug]);
+
+  function handleWishlist(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    const saved = localStorage.getItem("almirah_wishlist");
+    let list = saved ? JSON.parse(saved) : [];
+    
+    if (isWishlisted) {
+      list = list.filter((p: any) => p.slug !== slug);
+      setIsWishlisted(false);
+    } else {
+      list.push({
+        slug,
+        name,
+        price,
+        compareAtPrice,
+        images,
+        categorySlug,
+        tags,
+        stock,
+        isOutOfStock
+      });
+      setIsWishlisted(true);
+    }
+    localStorage.setItem("almirah_wishlist", JSON.stringify(list));
+  }
 
   return (
     <article className="group relative">
@@ -67,10 +110,13 @@ export function ProductCard({
           <button
             type="button"
             aria-label="Add to wishlist"
-            onClick={(e) => e.preventDefault()}
-            className="absolute right-3 top-3 rounded-full bg-pearl/80 p-2 opacity-0 backdrop-blur-sm transition group-hover:opacity-100 z-10"
+            onClick={handleWishlist}
+            className={cn(
+              "absolute right-3 top-3 rounded-full bg-pearl/80 p-2 backdrop-blur-sm transition z-10",
+              mounted && isWishlisted ? "opacity-100 text-red-600" : "opacity-0 group-hover:opacity-100 text-obsidian"
+            )}
           >
-            <Heart className="h-3.5 w-3.5" />
+            <Heart className={cn("h-3.5 w-3.5", mounted && isWishlisted && "fill-current")} />
           </button>
           
           {isOutOfStock || stock === 0 ? (
