@@ -69,6 +69,7 @@ export function ProductDetailClient({
   const [sizeGuide, setSizeGuide] = useState(false);
   const [accordion, setAccordion] = useState<string | null>("material");
   const [zoom, setZoom] = useState(false);
+  const [isDescExpanded, setIsDescExpanded] = useState(false);
 
   const price = Number(product.price);
   const compare = product.compareAtPrice ? Number(product.compareAtPrice) : null;
@@ -201,10 +202,25 @@ export function ProductDetailClient({
             )}
           </div>
 
-          <div 
-            className="mt-5 max-w-lg text-sm leading-relaxed text-obsidian/70 space-y-4 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ul>li]:mb-1"
-            dangerouslySetInnerHTML={{ __html: product.description }}
-          />
+          <div className="mt-5 max-w-lg relative">
+            <div 
+              className={cn(
+                "text-sm leading-relaxed text-obsidian/70 space-y-4 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ul>li]:mb-1 relative overflow-hidden transition-all duration-300",
+                !isDescExpanded && "max-h-24"
+              )}
+              dangerouslySetInnerHTML={{ __html: product.description }}
+            />
+            {!isDescExpanded && (
+              <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-[#FAFAFA] to-transparent pointer-events-none" />
+            )}
+            <button 
+              type="button" 
+              onClick={() => setIsDescExpanded(!isDescExpanded)}
+              className="mt-2 text-xs uppercase tracking-widest font-bold text-obsidian underline underline-offset-4"
+            >
+              {isDescExpanded ? "Read Less" : "Load More"}
+            </button>
+          </div>
 
 
           {/* Sizes */}
