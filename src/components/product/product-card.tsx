@@ -96,19 +96,6 @@ export function ProductCard({
             className="object-cover opacity-0 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
           />
           {/* Only the Save % badge — category/tag badges removed for consistency */}
-          <div className="absolute left-3 top-3 flex flex-col gap-1.5">
-            {compareAtPrice && Number(compareAtPrice) > Number(price) && (
-              <span className="bg-champagne px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-obsidian">
-                Save{" "}
-                {Math.round(
-                  ((Number(compareAtPrice) - Number(price)) /
-                    Number(compareAtPrice)) *
-                  100,
-                )}
-                %
-              </span>
-            )}
-          </div>
           <button
             type="button"
             aria-label="Add to wishlist"
@@ -138,9 +125,14 @@ export function ProductCard({
           <div className="flex items-center gap-2 text-[13px]">
             <span className="font-medium">{formatCurrency(price)}</span>
             {compareAtPrice && Number(compareAtPrice) > Number(price) && (
-              <span className="text-obsidian/40 line-through">
-                {formatCurrency(compareAtPrice)}
-              </span>
+              <>
+                <span className="text-obsidian/40 line-through">
+                  {formatCurrency(compareAtPrice)}
+                </span>
+                <span className="text-red-600 font-medium text-[10px] uppercase tracking-[0.1em]">
+                  Save {Math.round(((Number(compareAtPrice) - Number(price)) / Number(compareAtPrice)) * 100)}%
+                </span>
+              </>
             )}
           </div>
         </div>

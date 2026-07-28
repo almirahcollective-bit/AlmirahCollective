@@ -707,11 +707,25 @@ export function AdminClient({
                     const currentPrice = editedProducts[p.id]?.price !== undefined ? editedProducts[p.id].price : p.price;
                     const currentCompareAtPrice = editedProducts[p.id]?.compareAtPrice !== undefined ? editedProducts[p.id].compareAtPrice : p.compareAtPrice || "";
                     const currentStock = editedProducts[p.id]?.stockBySize || p.stockBySize || {};
+                    const currentName = editedProducts[p.id]?.name !== undefined ? editedProducts[p.id].name : p.name;
+                    const currentDesc = editedProducts[p.id]?.description !== undefined ? editedProducts[p.id].description : p.description || "";
                     
                     return (
                     <tr key={p.id} className="border-t border-pearl/8 hover:bg-pearl/[0.02] transition-colors">
                       <td className="px-4 py-3 align-top max-w-[200px]">
-                        <p className="line-clamp-2 font-medium">{p.name}</p>
+                        <input 
+                          type="text"
+                          value={currentName}
+                          onChange={(e) => updateProductDraft(p.id, { name: e.target.value })}
+                          className="w-full bg-transparent border-b border-transparent focus:border-champagne outline-none font-medium mb-2 text-sm"
+                          placeholder="Product Name"
+                        />
+                        <textarea
+                          value={currentDesc}
+                          onChange={(e) => updateProductDraft(p.id, { description: e.target.value })}
+                          className="w-full bg-transparent border border-pearl/10 p-1.5 text-xs h-16 outline-none focus:border-champagne resize-none text-pearl/70"
+                          placeholder="Description (HTML supported)"
+                        />
                         <div className="mt-3">
                           <div className="mb-2 flex flex-wrap gap-1">
                             {currentImages.map((img: string, i: number) => (

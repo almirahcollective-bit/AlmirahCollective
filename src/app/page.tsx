@@ -116,19 +116,34 @@ export default async function HomePage() {
       </section>
 
       {/* Brand strip */}
-      <section className="border-y border-obsidian/8 bg-obsidian py-5">
-        <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-center gap-x-8 gap-y-3 px-5 md:px-8">
-          <span className="text-[10px] uppercase tracking-[0.28em] text-champagne">
-            Labels we love
-          </span>
-          {BRAND.brandsCarried.map((b) => (
-            <span
-              key={b}
-              className="text-[11px] uppercase tracking-[0.22em] text-pearl/55"
-            >
-              {b}
+      <section className="border-y border-obsidian/8 bg-obsidian py-5 overflow-hidden">
+        <div className="flex w-full whitespace-nowrap">
+          <div className="flex min-w-full shrink-0 animate-marquee items-center justify-around gap-x-8 px-8">
+            <span className="text-[10px] uppercase tracking-[0.28em] text-champagne shrink-0">
+              Labels we love
             </span>
-          ))}
+            {BRAND.brandsCarried.map((b) => (
+              <span
+                key={b}
+                className="text-[11px] uppercase tracking-[0.22em] text-pearl/55 shrink-0"
+              >
+                {b}
+              </span>
+            ))}
+          </div>
+          <div className="flex min-w-full shrink-0 animate-marquee items-center justify-around gap-x-8 px-8" aria-hidden="true">
+            <span className="text-[10px] uppercase tracking-[0.28em] text-champagne shrink-0">
+              Labels we love
+            </span>
+            {BRAND.brandsCarried.map((b) => (
+              <span
+                key={b + '-dup'}
+                className="text-[11px] uppercase tracking-[0.22em] text-pearl/55 shrink-0"
+              >
+                {b}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 

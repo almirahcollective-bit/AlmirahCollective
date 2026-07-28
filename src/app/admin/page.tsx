@@ -146,8 +146,10 @@ export default async function AdminPage() {
         stock: p.stock,
         stockBySize: p.stockBySize,
         price: p.price,
+        compareAtPrice: p.compareAtPrice,
         categorySlug: p.categorySlug,
         images: p.images,
+        description: p.description,
       }))}
       leads={allLeads}
       complaints={allComplaints}
