@@ -55,7 +55,7 @@ export function ReviewsMarquee({ reviews }: { reviews: Review[] }) {
       </div>
 
       <div className="relative flex overflow-x-hidden group">
-        <div className="animate-marquee flex gap-6 px-3 whitespace-nowrap group-hover:[animation-play-state:paused]">
+        <div className="animate-marquee-slow flex gap-6 px-3 whitespace-nowrap group-hover:[animation-play-state:paused]">
           {displayReviews.map((r, idx) => (
             <div
               key={`${r.id}-${idx}`}
@@ -76,7 +76,7 @@ export function ReviewsMarquee({ reviews }: { reviews: Review[] }) {
             </div>
           ))}
         </div>
-        <div className="animate-marquee flex gap-6 px-3 whitespace-nowrap absolute top-0 group-hover:[animation-play-state:paused]">
+        <div className="animate-marquee-slow flex gap-6 px-3 whitespace-nowrap absolute top-0 group-hover:[animation-play-state:paused]">
           {displayReviews.map((r, idx) => (
             <div
               key={`${r.id}-clone-${idx}`}
