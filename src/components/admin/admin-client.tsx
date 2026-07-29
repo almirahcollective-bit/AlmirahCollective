@@ -725,7 +725,7 @@ export function AdminClient({
                           value={currentDesc}
                           onChange={(e) => updateProductDraft(p.id, { description: e.target.value })}
                           className="w-full bg-transparent border border-pearl/10 p-1.5 text-xs h-16 outline-none focus:border-champagne resize-none text-pearl/70"
-                          placeholder="Description (HTML supported)"
+                          placeholder="Product Description"
                         />
                         <div className="mt-3">
                           <div className="mb-2 flex flex-wrap gap-1">
