@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export async function PATCH(request: Request) {
   try {
@@ -23,6 +24,8 @@ export async function PATCH(request: Request) {
       if (update.stockBySize !== undefined) updateData.stockBySize = update.stockBySize;
       if (update.isOutOfStock !== undefined) updateData.isOutOfStock = update.isOutOfStock;
       if (update.categorySlug !== undefined) updateData.categorySlug = update.categorySlug;
+      if (update.description !== undefined) updateData.description = update.description;
+      if (update.name !== undefined) updateData.name = update.name;
 
       if (Object.keys(updateData).length > 0) {
         await db
@@ -31,6 +34,8 @@ export async function PATCH(request: Request) {
           .where(eq(products.id, update.id));
       }
     }
+
+    revalidatePath('/', 'layout');
 
     return NextResponse.json({ success: true });
   } catch (err) {

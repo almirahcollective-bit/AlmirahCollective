@@ -202,7 +202,16 @@ export const contactMessages = pgTable("contact_messages", {
   phone: varchar("phone", { length: 40 }),
   subject: varchar("subject", { length: 220 }).notNull(),
   message: text("message").notNull(),
-  status: varchar("status", { length: 40 }).default("new").notNull(),
+  status: varchar("status", { length: 50 }).default("new").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const coupons = pgTable("coupons", {
+  id: serial("id").primaryKey(),
+  code: varchar("code", { length: 80 }).notNull().unique(),
+  discountAmount: numeric("discount_amount", { precision: 10, scale: 2 }).notNull(),
+  minOrderAmount: numeric("min_order_amount", { precision: 10, scale: 2 }).default("0").notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

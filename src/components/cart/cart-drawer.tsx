@@ -195,8 +195,9 @@ export function CartDrawer() {
                 </button>
               </div>
               {appliedDiscount && (
-                <p className="mt-2 text-xs text-green-700">
-                  Code applied! {discountCodeStr} (-10%)
+                <p className="mt-2 text-xs text-green-700 flex justify-between">
+                  <span>Code applied: {discountCodeStr}</span>
+                  <span>- {formatCurrency(appliedDiscount)}</span>
                 </p>
               )}
             </div>

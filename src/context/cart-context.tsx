@@ -134,21 +134,29 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   const finalSubtotal = useMemo(
-    () => (appliedDiscount ? subtotal * (1 - appliedDiscount) : subtotal),
+    () => (appliedDiscount ? Math.max(0, subtotal - appliedDiscount) : subtotal),
     [subtotal, appliedDiscount]
   );
 
-  const applyDiscount = useCallback((code: string) => {
-    // Basic hardcoded logic matching catalog.ts BRAND.discountCode
-    if (code.toUpperCase() === "ALMIRAH10") {
-      setAppliedDiscount(0.1);
-      setDiscountCodeStr(code.toUpperCase());
-    } else {
-      setAppliedDiscount(null);
-      setDiscountCodeStr("");
-      alert("Invalid discount code");
+  const applyDiscount = useCallback(async (code: string) => {
+    try {
+      const res = await fetch(`/api/coupons/validate?code=${code}&subtotal=${subtotal}`);
+      const data = await res.json();
+      
+      if (!res.ok) {
+        setAppliedDiscount(null);
+        setDiscountCodeStr("");
+        alert(data.error || "Invalid discount code");
+        return;
+      }
+      
+      setAppliedDiscount(data.discountAmount);
+      setDiscountCodeStr(data.code);
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong validating the code.");
     }
-  }, []);
+  }, [subtotal]);
 
   const removeDiscount = useCallback(() => {
     setAppliedDiscount(null);

@@ -130,6 +130,7 @@ const TABS = [
   { id: "analytics", label: "Customer Behaviour", icon: BarChart3 },
   { id: "rma", label: "Complaints & RMA", icon: Ticket },
   { id: "reviews", label: "Reviews", icon: MessageSquareText },
+  { id: "coupons", label: "Coupons", icon: Ticket },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
@@ -199,6 +200,61 @@ export function AdminClient({
   const [inventoryPage, setInventoryPage] = useState(1);
   const ITEMS_PER_PAGE = 10;
   const [isSaving, setIsSaving] = useState(false);
+
+  // Coupons state
+  const [couponsList, setCouponsList] = useState<any[]>([]);
+  const [isLoadingCoupons, setIsLoadingCoupons] = useState(false);
+  const [newCouponForm, setNewCouponForm] = useState({ code: "", discountAmount: "", minOrderAmount: "" });
+  
+  const loadCoupons = async () => {
+    setIsLoadingCoupons(true);
+    try {
+      const res = await fetch("/api/admin/coupons");
+      const data = await res.json();
+      setCouponsList(data);
+    } catch (err) {
+      console.error(err);
+    }
+    setIsLoadingCoupons(false);
+  };
+
+  const handleCreateCoupon = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCouponForm.code || !newCouponForm.discountAmount) return;
+    try {
+      const res = await fetch("/api/admin/coupons", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newCouponForm),
+      });
+      if (res.ok) {
+        setNewCouponForm({ code: "", discountAmount: "", minOrderAmount: "" });
+        loadCoupons();
+      } else {
+        const data = await res.json();
+        alert(data.error || "Failed to create coupon");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteCoupon = async (id: number) => {
+    if (!confirm("Are you sure you want to delete this coupon?")) return;
+    try {
+      await fetch(`/api/admin/coupons/${id}`, { method: "DELETE" });
+      loadCoupons();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleTabChange = (t: TabId) => {
+    setTab(t);
+    if (t === "coupons") {
+      loadCoupons();
+    }
+  };
 
   // ---- Financials: date-range filtering ----
   const { from, to } = useMemo(() => {
@@ -453,7 +509,7 @@ export function AdminClient({
             <button
               key={t.id}
               type="button"
-              onClick={() => setTab(t.id)}
+              onClick={() => handleTabChange(t.id as TabId)}
               className={cn(
                 "flex shrink-0 items-center gap-2 border-b-2 px-4 py-3 text-[11px] uppercase tracking-[0.15em] transition",
                 tab === t.id
@@ -1312,6 +1368,104 @@ export function AdminClient({
               ))}
               {reviews.length === 0 && (
                 <p className="text-sm text-pearl/45">No reviews yet.</p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {tab === "coupons" && (
+          <div className="space-y-12">
+            <div>
+              <h2 className="font-serif text-2xl text-obsidian">Coupons Management</h2>
+              <p className="text-sm text-obsidian/60 mt-2">Create and manage fixed-amount discount codes.</p>
+            </div>
+
+            <div className="bg-white p-6 md:p-8 shadow-sm">
+              <h3 className="font-serif text-lg text-obsidian mb-4">Create New Coupon</h3>
+              <form onSubmit={handleCreateCoupon} className="flex flex-col md:flex-row gap-4 items-end">
+                <div className="flex-1">
+                  <label className="mb-2 block text-[10px] uppercase tracking-widest text-obsidian/60">Coupon Code (e.g. SAVE500)</label>
+                  <input
+                    type="text"
+                    required
+                    value={newCouponForm.code}
+                    onChange={(e) => setNewCouponForm({ ...newCouponForm, code: e.target.value })}
+                    className="w-full border-b border-obsidian/20 bg-transparent py-2 text-sm outline-none focus:border-obsidian"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="mb-2 block text-[10px] uppercase tracking-widest text-obsidian/60">Discount Amount (₹)</label>
+                  <input
+                    type="number"
+                    required
+                    min="1"
+                    value={newCouponForm.discountAmount}
+                    onChange={(e) => setNewCouponForm({ ...newCouponForm, discountAmount: e.target.value })}
+                    className="w-full border-b border-obsidian/20 bg-transparent py-2 text-sm outline-none focus:border-obsidian"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="mb-2 block text-[10px] uppercase tracking-widest text-obsidian/60">Min Order Amount (₹)</label>
+                  <input
+                    type="number"
+                    required
+                    min="0"
+                    value={newCouponForm.minOrderAmount}
+                    onChange={(e) => setNewCouponForm({ ...newCouponForm, minOrderAmount: e.target.value })}
+                    className="w-full border-b border-obsidian/20 bg-transparent py-2 text-sm outline-none focus:border-obsidian"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="bg-obsidian px-6 py-3 text-[11px] uppercase tracking-widest text-pearl hover:bg-obsidian/90"
+                >
+                  Create
+                </button>
+              </form>
+            </div>
+
+            <div>
+              <h3 className="font-serif text-lg text-obsidian mb-4">Active Coupons</h3>
+              {isLoadingCoupons ? (
+                <p className="text-sm text-obsidian/60">Loading coupons...</p>
+              ) : couponsList.length === 0 ? (
+                <p className="text-sm text-obsidian/60">No coupons found.</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm">
+                    <thead>
+                      <tr className="border-b border-obsidian/10">
+                        <th className="pb-4 font-medium">Code</th>
+                        <th className="pb-4 font-medium">Discount (₹)</th>
+                        <th className="pb-4 font-medium">Min Order (₹)</th>
+                        <th className="pb-4 font-medium">Status</th>
+                        <th className="pb-4 font-medium text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-obsidian/5">
+                      {couponsList.map((c) => (
+                        <tr key={c.id}>
+                          <td className="py-4 font-medium">{c.code}</td>
+                          <td className="py-4">{formatCurrency(c.discountAmount)}</td>
+                          <td className="py-4">{formatCurrency(c.minOrderAmount)}</td>
+                          <td className="py-4">
+                            <span className={cn("px-2 py-1 text-[10px] uppercase tracking-widest", c.isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700")}>
+                              {c.isActive ? "Active" : "Inactive"}
+                            </span>
+                          </td>
+                          <td className="py-4 text-right">
+                            <button
+                              onClick={() => handleDeleteCoupon(c.id)}
+                              className="text-red-500 hover:text-red-700 text-xs uppercase tracking-widest"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           </div>
