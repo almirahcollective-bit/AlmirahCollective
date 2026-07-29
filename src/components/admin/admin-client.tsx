@@ -55,6 +55,7 @@ type Product = {
   categorySlug: string;
   images: string[];
   isOutOfStock?: boolean | null;
+  description?: string | null;
 };
 
 type Lead = {
