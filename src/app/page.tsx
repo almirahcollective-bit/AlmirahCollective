@@ -394,27 +394,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Reviews */}
-      <section className="border-t border-obsidian/8 py-20 md:py-28 bg-[#FAF7F2]">
-        <div className="mx-auto max-w-[1440px] px-5 md:px-8">
-          <div className="mb-12 text-center">
-            <h2 className="font-serif text-3xl md:text-5xl text-obsidian">Real reviews</h2>
-            <p className="mt-3 text-sm text-obsidian/60">From our verified buyers across India</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {approvedReviews.slice(0, 3).map((review) => (
-              <div key={review.id} className="bg-pearl p-8 border border-obsidian/10 flex flex-col gap-4">
-                <div className="flex gap-1 text-champagne-dark">
-                  {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
-                </div>
-                {review.title && <p className="font-serif text-lg font-semibold">{review.title}</p>}
-                <p className="text-sm leading-relaxed text-obsidian/75 italic">"{review.body}"</p>
-                <p className="text-xs font-bold uppercase tracking-wider mt-auto pt-4 border-t border-obsidian/5">{review.customerName}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Reviews Marquee */}
+      <ReviewsMarquee reviews={approvedReviews} />
       <Marquee items={pressItems} />
 
       {/* Newsletter */}
