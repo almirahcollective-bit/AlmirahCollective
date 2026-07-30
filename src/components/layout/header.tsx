@@ -6,7 +6,6 @@ import { Menu, Search, ShoppingBag, User, X, ChevronDown, Heart } from "lucide-r
 import { CATEGORIES, BRAND } from "@/lib/catalog";
 import { useCart } from "@/context/cart-context";
 import { cn } from "@/lib/utils";
-import { AnnouncementBar } from "@/components/layout/announcement-bar";
 
 export function Header() {
   const { itemCount, openCart } = useCart();
@@ -36,7 +35,6 @@ export function Header() {
           "bg-pearl/95 backdrop-blur-md shadow-[0_1px_0_rgba(11,11,12,0.06)]"
         )}
       >
-        <AnnouncementBar />
         <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 md:h-20 md:px-8">
           <div className="flex items-center gap-3 md:hidden">
             <button
