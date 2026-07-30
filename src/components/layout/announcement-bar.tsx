@@ -17,40 +17,18 @@ export function AnnouncementBar() {
         </Link>
         <div className="flex overflow-hidden whitespace-nowrap sm:w-auto w-full">
           <p className="flex items-center gap-x-2 text-[11px] tracking-[0.1em] md:text-[12px] animate-marquee sm:animate-none">
-            <span className="text-pearl/80">First order?</span>
-            <span className="inline-flex items-center gap-1 font-medium text-champagne">
-              <Tag className="h-3 w-3" />
-              Use Code
-              <span className="rounded bg-champagne/20 px-1.5 py-0.5 font-mono tracking-widest text-pearl">
-                {BRAND.discountCode}
-              </span>
-              for {BRAND.discountPercent}% off
-            </span>
+            <span className="text-pearl/80">Premium Quality</span>
             <span className="text-pearl/40 inline sm:hidden mx-2">·</span>
-            <span className="text-pearl/70 inline sm:hidden">
-              Free shipping over ₹{BRAND.freeShippingThreshold}
+            <span className="text-pearl/70">
+              Free shipping on all orders over ₹{BRAND.freeShippingThreshold}
             </span>
 
             {/* Duplicate for seamless scrolling on mobile */}
             <span className="text-pearl/40 inline sm:hidden mx-2">·</span>
-            <span className="text-pearl/80 inline sm:hidden">First order?</span>
-            <span className="inline-flex items-center gap-1 font-medium text-champagne sm:hidden ml-2">
-              <Tag className="h-3 w-3" />
-              Use Code
-              <span className="rounded bg-champagne/20 px-1.5 py-0.5 font-mono tracking-widest text-pearl">
-                {BRAND.discountCode}
-              </span>
-              for {BRAND.discountPercent}% off
-            </span>
+            <span className="text-pearl/80 inline sm:hidden">Premium Quality</span>
             <span className="text-pearl/40 inline sm:hidden mx-2">·</span>
             <span className="text-pearl/70 inline sm:hidden">
-              Free shipping over ₹{BRAND.freeShippingThreshold}
-            </span>
-
-            {/* Desktop extras (hidden on mobile) */}
-            <span className="hidden text-pearl/40 sm:inline mx-2">·</span>
-            <span className="hidden text-pearl/70 sm:inline">
-              Free shipping over ₹{BRAND.freeShippingThreshold}
+              Free shipping on all orders over ₹{BRAND.freeShippingThreshold}
             </span>
           </p>
         </div>
