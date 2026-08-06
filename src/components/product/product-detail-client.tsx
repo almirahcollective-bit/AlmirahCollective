@@ -56,12 +56,25 @@ export function ProductDetailClient({
   }[];
 }) {
   const { addItem } = useCart();
-  const [activeImage, setActiveImage] = useState(0);
-
   const [size, setSize] = useState(() => {
     if (product.categorySlug === "accessories") return "FS";
-    return product.sizes[0] ?? "";
+    return product.sizes?.[0] ?? "";
   });
+
+  const validImages = useMemo(() => {
+    if (!product.images) return ["/images/placeholder.jpg"];
+    if (typeof product.images === 'string') {
+      try {
+        const parsed = JSON.parse(product.images);
+        return Array.isArray(parsed) && parsed.length > 0 ? parsed : ["/images/placeholder.jpg"];
+      } catch {
+        return [product.images];
+      }
+    }
+    return Array.isArray(product.images) && product.images.length > 0 ? product.images : ["/images/placeholder.jpg"];
+  }, [product.images]);
+
+  const [activeImage, setActiveImage] = useState(0);
 
   const isSizeAvailable = !product.isOutOfStock;
   const isOutOfStock = product.isOutOfStock;
@@ -80,12 +93,12 @@ export function ProductDetailClient({
 
   function handleNextImage(e: React.MouseEvent) {
     e.stopPropagation();
-    setActiveImage((prev) => (prev + 1) % product.images.length);
+    setActiveImage((prev) => (prev + 1) % validImages.length);
   }
 
   function handlePrevImage(e: React.MouseEvent) {
     e.stopPropagation();
-    setActiveImage((prev) => (prev - 1 + product.images.length) % product.images.length);
+    setActiveImage((prev) => (prev - 1 + validImages.length) % validImages.length);
   }
 
   function handleAdd() {
@@ -94,7 +107,7 @@ export function ProductDetailClient({
       slug: product.slug,
       name: product.name,
       price,
-      image: product.images[0],
+      image: validImages[0],
       size,
     });
   }
@@ -122,7 +135,7 @@ export function ProductDetailClient({
             onClick={() => setZoom((z) => !z)}
           >
             <Image
-              src={product.images[activeImage]}
+              src={validImages[activeImage] || "/images/placeholder.jpg"}
               alt={product.name}
               fill
               priority
@@ -132,7 +145,7 @@ export function ProductDetailClient({
                 zoom && "scale-150",
               )}
             />
-            {product.images.length > 1 && (
+            {validImages.length > 1 && (
               <>
                 <button
                   type="button"
@@ -152,9 +165,9 @@ export function ProductDetailClient({
             )}
           </div>
           <div className="mt-3 flex gap-2 overflow-x-auto">
-            {product.images.map((img, i) => (
+            {validImages.map((img, i) => (
               <button
-                key={img}
+                key={i + "-" + img}
                 type="button"
                 onClick={() => {
                   setActiveImage(i);
