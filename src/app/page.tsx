@@ -296,7 +296,7 @@ export default async function HomePage() {
           </p>
           <h2 className="mt-3 font-serif text-3xl md:text-5xl">Shop by occasion</h2>
           <p className="mx-auto mt-3 max-w-md text-sm text-obsidian/55">
-            We're tagging every piece by styling story — so soon each look
+            We&apos;re tagging every piece by styling story — so soon each look
             comes together effortlessly.
           </p>
         </div>

@@ -17,15 +17,19 @@ export async function PATCH(request: Request) {
       if (!update.id) continue;
       
       const updateData: any = {};
-      if (update.price !== undefined) updateData.price = update.price;
-      if (update.compareAtPrice !== undefined) updateData.compareAtPrice = update.compareAtPrice;
+      if (update.price !== undefined) updateData.price = String(update.price);
+      if (update.compareAtPrice !== undefined) updateData.compareAtPrice = update.compareAtPrice ? String(update.compareAtPrice) : null;
       if (update.images !== undefined) updateData.images = update.images;
       if (update.stock !== undefined) updateData.stock = update.stock;
-      if (update.stockBySize !== undefined) updateData.stockBySize = update.stockBySize;
+      if (update.stockBySize !== undefined) {
+        updateData.stockBySize = update.stockBySize;
+        updateData.sizes = Object.keys(update.stockBySize);
+      }
       if (update.isOutOfStock !== undefined) updateData.isOutOfStock = update.isOutOfStock;
       if (update.categorySlug !== undefined) updateData.categorySlug = update.categorySlug;
       if (update.description !== undefined) updateData.description = update.description;
       if (update.name !== undefined) updateData.name = update.name;
+      updateData.updatedAt = new Date();
 
       if (Object.keys(updateData).length > 0) {
         await db

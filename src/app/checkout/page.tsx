@@ -44,11 +44,13 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     // Reset state and city when country changes
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setForm(prev => ({ ...prev, stateIso: "", city: "" }));
   }, [form.countryIso]);
 
   useEffect(() => {
     // Reset city when state changes
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setForm(prev => ({ ...prev, city: "" }));
   }, [form.stateIso]);
 

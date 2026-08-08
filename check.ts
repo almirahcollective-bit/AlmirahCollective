@@ -1,0 +1,1 @@
+import { db } from "./src/db/index"; import { products } from "./src/db/schema"; async function main() { const all = await db.select().from(products).limit(1); console.log(all[0].images); } main();

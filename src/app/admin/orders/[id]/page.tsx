@@ -51,6 +51,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   <li key={i} className="flex gap-4 items-start">
                     {item.productImage ? (
                       <div className="w-16 h-20 bg-pearl/5 overflow-hidden shrink-0">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={item.productImage} alt={item.productName} className="w-full h-full object-cover" />
                       </div>
                     ) : (

@@ -125,6 +125,7 @@ export function Header() {
                   <div className="flex-1 flex flex-col p-4 gap-4 bg-beige/30">
                     <Link href="/shop" className="relative flex-1 group overflow-hidden">
                       <div className="absolute inset-0 bg-obsidian/10 group-hover:bg-transparent transition-colors z-10" />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=600&auto=format&fit=crop" alt="Editorial" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       <div className="absolute bottom-3 left-3 z-20">
                         <p className="text-pearl text-xs uppercase tracking-widest font-medium">New Arrivals</p>
@@ -132,6 +133,7 @@ export function Header() {
                     </Link>
                     <Link href="/lookbook" className="relative flex-1 group overflow-hidden">
                       <div className="absolute inset-0 bg-obsidian/10 group-hover:bg-transparent transition-colors z-10" />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src="https://zscukxpafikmszrqwodc.supabase.co/storage/v1/object/public/product-images/product_40_0.png" alt="Lookbook" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       <div className="absolute bottom-3 left-3 z-20">
                         <p className="text-pearl text-xs uppercase tracking-widest font-medium">Lookbook</p>
@@ -156,6 +158,7 @@ export function Header() {
           </nav>
 
           <Link href="/" className="absolute left-1/2 -translate-x-1/2 text-center flex items-center justify-center gap-2 md:gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/logo.png" alt="Logo" className="h-8 w-auto md:h-10 object-contain mix-blend-multiply" />
             <span className="hidden font-serif text-xl tracking-[0.08em] text-obsidian md:block md:text-2xl mt-1">
               {BRAND.name}

@@ -15,6 +15,22 @@ export default function WishlistPage() {
   const [loading, setLoading] = useState(true);
   const [wishlist, setWishlist] = useState<any[]>([]);
 
+  async function fetchWishlist(userId: string) {
+    try {
+      // In a real application, you'd fetch by user.id if it's connected to `customers` table
+      // But since we might be mocking it for now, let's just use local storage as fallback
+      // Because `wishlist_items` requires `customer_id` which might be a numeric ID from `customers` table
+      // We will just read from local storage for the easiest integration without deep DB relations
+      
+      const saved = localStorage.getItem("almirah_wishlist");
+      if (saved) {
+        setWishlist(JSON.parse(saved));
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     let mounted = true;
 
@@ -33,21 +49,7 @@ export default function WishlistPage() {
     };
   }, [router]);
 
-  async function fetchWishlist(userId: string) {
-    try {
-      // In a real application, you'd fetch by user.id if it's connected to `customers` table
-      // But since we might be mocking it for now, let's just use local storage as fallback
-      // Because `wishlist_items` requires `customer_id` which might be a numeric ID from `customers` table
-      // We will just read from local storage for the easiest integration without deep DB relations
-      
-      const saved = localStorage.getItem("almirah_wishlist");
-      if (saved) {
-        setWishlist(JSON.parse(saved));
-      }
-    } finally {
-      setLoading(false);
-    }
-  }
+
 
   if (loading) {
     return (

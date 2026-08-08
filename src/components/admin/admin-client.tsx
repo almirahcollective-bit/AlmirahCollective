@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import Link from "next/link";
+import React, { useState, useTransition, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { toggleReviewApprovalAction, deleteReviewAction } from "@/actions/review-actions";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
@@ -316,6 +317,7 @@ export function AdminClient({
         id,
         status,
         trackingNumber:
+          // eslint-disable-next-line react-hooks/purity
           status === "dispatched" ? `BD${Date.now().toString().slice(-8)}` : undefined,
         courier: status === "dispatched" ? "BlueDart" : undefined,
       }),
@@ -499,9 +501,9 @@ export function AdminClient({
           <div className="flex items-center gap-3 text-xs text-pearl/50">
             {pending && <span className="animate-pulse">Refreshing…</span>}
             {message && <span className="text-champagne">{message}</span>}
-            <a href="/" className="border border-pearl/20 px-3 py-2 hover:border-champagne">
+            <Link href="/" className="border border-pearl/20 px-3 py-2 hover:border-champagne">
               View storefront
-            </a>
+            </Link>
           </div>
         </div>
         <div className="mx-auto flex max-w-[1440px] gap-1 overflow-x-auto px-5 md:px-8">
@@ -685,8 +687,8 @@ export function AdminClient({
                     <input required type="file" multiple accept="image/*,video/*" className="w-full bg-transparent border border-pearl/20 px-3 py-2 text-pearl/50 file:mr-4 file:bg-champagne file:text-obsidian file:px-3 file:py-1 file:border-0 file:text-xs file:uppercase file:font-bold file:tracking-widest" onChange={e => setNewProductForm({...newProductForm, imageFiles: Array.from(e.target.files || [])})} />
                     
                     <select className="w-full bg-transparent border border-pearl/20 px-3 py-2" value={newProductForm.categorySlug} onChange={e => setNewProductForm({...newProductForm, categorySlug: e.target.value})}>
-                      <option className="bg-obsidian" value="womens-wear">Women's Wear</option>
-                      <option className="bg-obsidian" value="mens-wear">Men's Wear</option>
+                      <option className="bg-obsidian" value="womens-wear">Women&apos;s Wear</option>
+                      <option className="bg-obsidian" value="mens-wear">Men&apos;s Wear</option>
                       <option className="bg-obsidian" value="indian-casuals">Indian Casuals</option>
                       <option className="bg-obsidian" value="dresses">Dresses</option>
                       <option className="bg-obsidian" value="co-ord-sets">Co-ord Sets</option>
@@ -801,7 +803,10 @@ export function AdminClient({
                                 {img.endsWith(".mp4") || img.endsWith(".webm") || img.endsWith(".mov") ? (
                                   <video src={img} className="w-full h-full object-cover pointer-events-none" />
                                 ) : (
-                                  <img src={img} alt="" className="w-full h-full object-cover pointer-events-none" />
+                                  <>
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img src={img} alt="" className="w-full h-full object-cover pointer-events-none" />
+                                  </>
                                 )}
                                 <button 
                                   title="Remove media"
@@ -825,8 +830,8 @@ export function AdminClient({
                           value={editedProducts[p.id]?.categorySlug || p.categorySlug}
                           onChange={(e) => updateProductCategory(p.id, e.target.value)}
                         >
-                          <option className="bg-obsidian" value="womens-wear">Women's Wear</option>
-                          <option className="bg-obsidian" value="mens-wear">Men's Wear</option>
+                          <option className="bg-obsidian" value="womens-wear">Women&apos;s Wear</option>
+                          <option className="bg-obsidian" value="mens-wear">Men&apos;s Wear</option>
                           <option className="bg-obsidian" value="indian-casuals">Indian Casuals</option>
                           <option className="bg-obsidian" value="dresses">Dresses</option>
                           <option className="bg-obsidian" value="co-ord-sets">Co-ord Sets</option>

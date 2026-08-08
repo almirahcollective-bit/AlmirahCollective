@@ -50,6 +50,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <head>
+        {/* eslint-disable-next-line @next/next/next-script-for-ga */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -81,6 +82,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               }}
             />
             <noscript>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 height="1"
                 width="1"

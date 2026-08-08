@@ -75,7 +75,7 @@ export default function TermsPage() {
         <section>
           <h2 className="font-serif text-2xl text-obsidian">7. Liability</h2>
           <p className="mt-3">
-            The website and its content are provided on an "as is" and "as available" basis. To the
+            The website and its content are provided on an &quot;as is&quot; and &quot;as available&quot; basis. To the
             maximum extent permitted by law, {BRAND.name} is not liable for indirect or
             consequential damages arising from website use, delays, or availability issues.
           </p>
