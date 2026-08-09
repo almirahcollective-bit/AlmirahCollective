@@ -104,8 +104,13 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/shipping-returns" className="hover:text-pearl">
-                Shipping & Returns
+              <Link href="/shipping" className="hover:text-pearl">
+                Shipping Policy
+              </Link>
+            </li>
+            <li>
+              <Link href="/returns" className="hover:text-pearl">
+                Return & Refund Policy
               </Link>
             </li>
           </ul>
@@ -187,9 +192,26 @@ export function Footer() {
             <Link href="/terms" className="transition hover:text-pearl">
               Terms
             </Link>
-            <Link href="/shipping-returns" className="transition hover:text-pearl">
-              Shipping & Returns
+            <Link href="/shipping" className="transition hover:text-pearl">
+              Shipping
             </Link>
+            <Link href="/returns" className="transition hover:text-pearl">
+              Returns
+            </Link>
+          </div>
+        </div>
+      </div>
+      
+      {/* Payment Methods for Google Merchant Center Compliance */}
+      <div className="border-t border-pearl/10 bg-obsidian-light">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-center gap-4 px-5 py-6 text-center md:px-8">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-pearl/40">Secure Payments & Guaranteed Safe Checkout</p>
+          <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-pearl/60">
+            <span className="rounded border border-pearl/20 px-2 py-1">Visa</span>
+            <span className="rounded border border-pearl/20 px-2 py-1">Mastercard</span>
+            <span className="rounded border border-pearl/20 px-2 py-1">American Express</span>
+            <span className="rounded border border-pearl/20 px-2 py-1">UPI</span>
+            <span className="rounded border border-pearl/20 px-2 py-1">Cash on Delivery</span>
           </div>
         </div>
       </div>

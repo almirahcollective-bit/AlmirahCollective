@@ -6,7 +6,7 @@ export const BRAND = {
   email: "almirahcollective@gmail.com",
   phone: "+91 89713 27304",
   whatsapp: "+918971327304",
-  address: "Bengaluru, India",
+  address: "123 Fashion St, Indiranagar, Bengaluru, Karnataka 560038, India", // TODO: Update to your real address
   freeShippingThreshold: 699,
   startingPrice: 399,
   discountCode: "ALMIRAH10",
