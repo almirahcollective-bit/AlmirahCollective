@@ -31,8 +31,21 @@ export function ProductCard({
   categorySlug,
   tags,
 }: ProductCardProps) {
-  const primary = images[0];
-  const secondary = images[1] ?? images[0];
+  const validImages = (() => {
+    if (!images) return ["/images/placeholder.jpg"];
+    if (typeof images === 'string') {
+      try {
+        const parsed = JSON.parse(images);
+        return Array.isArray(parsed) && parsed.length > 0 ? parsed : ["/images/placeholder.jpg"];
+      } catch {
+        return [images];
+      }
+    }
+    return Array.isArray(images) && images.length > 0 ? images : ["/images/placeholder.jpg"];
+  })();
+
+  const primary = validImages[0];
+  const secondary = validImages[1] ?? validImages[0];
 
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [mounted, setMounted] = useState(false);

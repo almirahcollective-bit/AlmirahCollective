@@ -322,13 +322,6 @@ export function ProductDetailClient({
                 body: product.material || "Premium fabrics sourced responsibly.",
               },
               {
-                id: "care",
-                title: "Care Instructions",
-                body:
-                  product.careInstructions ||
-                  "Follow garment care label. Professional cleaning recommended for silk.",
-              },
-              {
                 id: "shipping",
                 title: "Shipping",
                 body: "Complimentary shipping over ₹699. Express available at checkout. Trackable courier delivery across India.",

@@ -231,7 +231,7 @@ export function Header() {
               key={cat.slug}
               href={`/shop/${cat.slug}`}
               onClick={() => setMobileOpen(false)}
-              className="border-b border-obsidian/8 py-3.5 font-serif text-2xl text-obsidian"
+              className="border-b border-obsidian/8 py-2 font-serif text-xl text-obsidian"
             >
               {cat.name}
             </Link>
