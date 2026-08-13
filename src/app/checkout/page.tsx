@@ -98,7 +98,7 @@ export default function CheckoutPage() {
   }, [user, authLoading, router]);
 
   const progress = freeShippingProgress(finalSubtotal, BRAND.freeShippingThreshold);
-  const shipping = progress.remaining > 0 ? 299 : 0;
+  const shipping = progress.remaining > 0 ? 49 : 0;
   const total = finalSubtotal + shipping;
 
   async function onSubmit(e: React.FormEvent) {

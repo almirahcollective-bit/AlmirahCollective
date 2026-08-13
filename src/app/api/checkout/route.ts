@@ -125,7 +125,7 @@ export async function POST(request: Request) {
     }
 
     const finalSubtotal = subtotal - discountAmount;
-    const shipping = finalSubtotal >= BRAND.freeShippingThreshold ? 0 : 299;
+    const shipping = finalSubtotal >= BRAND.freeShippingThreshold ? 0 : 49;
     const total = finalSubtotal + shipping;
 
     const [order] = await db
