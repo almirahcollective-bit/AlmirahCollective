@@ -22,9 +22,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .where(eq(products.slug, slug))
     .limit(1);
   if (!product) return { title: "Product not found" };
+  
+  const plainTextDesc = product.description.replace(/<[^>]*>?/gm, '');
+  const description = product.shortDescription || plainTextDesc.slice(0, 160);
+
   return {
     title: product.name,
-    description: product.shortDescription || product.description.slice(0, 160),
+    description: description,
     openGraph: {
       images: product.images[0] ? [product.images[0]] : [],
     },
@@ -77,14 +81,16 @@ export default async function ProductPage({ params }: Props) {
             "@context": "https://schema.org",
             "@type": "Product",
             name: product.name,
-            description: product.description,
+            description: product.shortDescription || product.description.replace(/<[^>]*>?/gm, ''),
             image: product.images,
             sku: product.slug,
             brand: { "@type": "Brand", name: "Almirah Collective" },
             offers: {
               "@type": "Offer",
+              url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://almirahcollective.in'}/product/${product.slug}`,
               priceCurrency: "INR",
               price: product.price,
+              itemCondition: "https://schema.org/NewCondition",
               availability:
                 product.stock > 0
                   ? "https://schema.org/InStock"

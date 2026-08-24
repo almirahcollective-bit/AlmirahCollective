@@ -6,7 +6,7 @@ export const BRAND = {
   email: "almirahcollective@gmail.com",
   phone: "+91 89713 27304",
   whatsapp: "+918971327304",
-  address: "Bengaluru, India",
+  address: "SIMS Legacy, 4th A across, 2nd Block, Kalyan Nagar, Bangalore 560043",
   freeShippingThreshold: 699,
   startingPrice: 399,
   discountCode: "ALMIRAH10",

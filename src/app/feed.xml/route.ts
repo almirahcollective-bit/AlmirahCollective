@@ -31,13 +31,17 @@ export async function GET() {
     const link = `${baseUrl}/product/${product.slug}`;
     const imageLink = product.images?.[0] || "";
     const condition = "new";
-    const availability = product.isOutOfStock ? "out of stock" : "in stock";
+    const availability = product.stock > 0 ? "in stock" : "out of stock";
     const price = `${product.price} INR`;
+    
+    // Strip HTML from description for the XML feed
+    const plainTextDesc = product.description ? product.description.replace(/<[^>]*>?/gm, '') : product.name;
+    const description = product.shortDescription || plainTextDesc;
 
     xml += `    <item>
-      <g:id>${product.id}</g:id>
+      <g:id>${escapeXml(product.slug)}</g:id>
       <g:title>${escapeXml(product.name)}</g:title>
-      <g:description>${escapeXml(product.description || product.name)}</g:description>
+      <g:description>${escapeXml(description)}</g:description>
       <g:link>${link}</g:link>
       <g:image_link>${escapeXml(imageLink)}</g:image_link>
       <g:condition>${condition}</g:condition>
