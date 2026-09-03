@@ -110,6 +110,16 @@ export function ProductDetailClient({
       image: validImages[0],
       size,
     });
+
+    if (typeof window !== "undefined" && (window as any).fbq) {
+      (window as any).fbq('track', 'AddToCart', {
+        content_name: product.name,
+        content_ids: [product.id.toString()],
+        content_type: 'product',
+        value: price,
+        currency: 'INR'
+      });
+    }
   }
 
   function handleWishlist() {

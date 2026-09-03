@@ -52,6 +52,12 @@ export function RazorpayIntegration({
             order_id: data.id,
             handler: function (response: any) {
               console.log('Payment success', response)
+              if (typeof window !== "undefined" && (window as any).fbq) {
+                (window as any).fbq('track', 'Purchase', {
+                  value: amount,
+                  currency: 'INR'
+                });
+              }
               onSuccess(response)
             },
             prefill: {

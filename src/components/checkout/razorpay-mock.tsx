@@ -27,6 +27,14 @@ export function RazorpayMock({ amount, email, phone, onSuccess, onClose }: Props
     // Simulate network delay
     await new Promise((r) => setTimeout(r, 1200));
     setProcessing(false);
+    
+    if (typeof window !== "undefined" && (window as any).fbq) {
+      (window as any).fbq('track', 'Purchase', {
+        value: amount,
+        currency: 'INR'
+      });
+    }
+
     onSuccess();
   };
 
