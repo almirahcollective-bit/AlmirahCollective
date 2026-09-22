@@ -694,6 +694,7 @@ export function AdminClient({
                       <option className="bg-obsidian" value="co-ord-sets">Co-ord Sets</option>
                       <option className="bg-obsidian" value="blouses-tops">Blouses & Tops</option>
                       <option className="bg-obsidian" value="casual-bottom-wear">Casual Bottom Wear</option>
+                      <option className="bg-obsidian" value="party-wear">Party Wear</option>
                       <option className="bg-obsidian" value="active-wear">Active-Wear</option>
                       <option className="bg-obsidian" value="accessories">Accessories</option>
                     </select>
@@ -838,6 +839,7 @@ export function AdminClient({
                           <option className="bg-obsidian" value="co-ord-sets">Co-ord Sets</option>
                           <option className="bg-obsidian" value="blouses-tops">Blouses & Tops</option>
                           <option className="bg-obsidian" value="casual-bottom-wear">Casual Bottom Wear</option>
+                          <option className="bg-obsidian" value="party-wear">Party Wear</option>
                           <option className="bg-obsidian" value="active-wear">Active-Wear</option>
                           <option className="bg-obsidian" value="accessories">Accessories</option>
                         </select>
